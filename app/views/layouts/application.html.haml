@@ -1,0 +1,41 @@
+!!!
+%html
+  %head
+    %title= @title
+    %meta(name='description' content="#{@description}")
+    %meta(name='keywords' content="#{@keywords}")
+    = csrf_meta_tags
+    = javascript_include_tag 'jquery-2.1.3.js'
+    = javascript_include_tag 'jquery.jcarousel.min.js'
+    = javascript_include_tag 'jcarousel.responsive.js'
+    = stylesheet_link_tag    "bootstrap.css"
+    = stylesheet_link_tag    'bootstrap-theme.css'
+    = stylesheet_link_tag    'jcarousel.responsive.css'
+    = javascript_include_tag 'bootstrap.js'
+  %body
+    .container{:style => "width: 1170px;"}
+      %br
+        .row
+          .col-md-2
+            = link_to "LOGO", root_path
+          .col-md-4
+          .col-md-3
+            .input-group
+          #ava.col-md-3
+        %ul.nav.nav-tabs
+          %li
+            %a{:href => "/"} Главная
+          %li
+            %a{:href => "/parfyumeriya"} Парфюмерия
+          %li
+            %a{:href => "/"} Контакты
+          -#%li= link_to "Обновление базы", update_index_path, method: :GET
+          %li
+            %a{:href => "/lalique-amethyst-edp-w"} SHOW PR
+          %li
+            %a{:href => "/orders"} Сводная
+          %li
+            %a{:href => "/tables/index"} Данные
+          %li
+            %a{:href => "/options"} Настройка
+        = yield
