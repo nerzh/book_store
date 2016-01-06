@@ -1,16 +1,4 @@
 # A sample Bowerfile
 # Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
 
-# asset 'bootstrap'
-
-
-asset 'angular'
-asset 'restangular'
-asset 'underscore'
-asset 'angular-route'
-asset 'angular-devise'
-asset 'angular-resource'
-asset 'ngDraggable', '0.1.8'
-asset 'eonasdan-bootstrap-datetimepicker'
-asset 'angular-strap'
-asset 'ng-file-upload'
+asset 'bootstrap'
