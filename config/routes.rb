@@ -1,8 +1,27 @@
 Rails.application.routes.draw do
 
+  post '/rate' => 'rater#create', :as => 'rate'
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
 
   root to: "main#index"
+
+  # resource :shop, only: [:show], controller: 'category' do
+  # end
+
+  resources :shop, controller: 'category'
+
+  resources :books, controller: 'book'
+
+  resources :orders, controller: 'order'
+
+  resource  :cart, controller: 'cart' do
+    collection do
+      post 'add'
+    end
+  end
+
+  resources  :checkout, controller: 'checkout'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

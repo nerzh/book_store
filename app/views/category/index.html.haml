@@ -1,0 +1,24 @@
+.content
+  .content-flex
+    .content-flex-left
+      SHOP
+      %ul.path
+        %li Home
+        %li Main
+      %ul.prod
+        - @books.each do |book|
+          %li.prod-card
+            %prod-image
+              = link_to image_tag("#{book.cover}"), book_path(book)
+            %prod-title
+              = link_to "#{book.title}", book_path(book)
+            %prod-price
+              = "#{book.show_price}"
+      %paginate
+        = paginate @books
+    .content-flex-right
+      SHOP BY CATEGORIES
+      %ul.categories
+        - @categories.each do |cat|
+          %li.cat
+            = link_to "#{cat.title}", shop_path(cat)

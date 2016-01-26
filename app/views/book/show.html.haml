@@ -1,0 +1,33 @@
+.content
+  .content-flex
+    .book-content
+      .book-title
+        = @book.title
+      .book-show
+        .book-image
+          = image_tag "#{@book.cover}"
+        .part-book-card
+          .book-cart-content
+            .book-price
+              = @book.show_price
+            .book-add-cart
+              = form_tag add_cart_path(id: @book.id), method: 'POST' do
+                = number_field_tag('quantity', 1, min: 1, max: 99, step: 1)
+                = submit_tag "Add to cart", class: 'btn'
+          .book-text
+            = @book.description
+      .review-title
+        Review ---
+        = link_to '- Add review to this book', '#'
+      - @book.reviews.each do |review|
+        .review-info.review-title
+          .rating
+            = rating_for review, "rating", :star => 5, :disable_after_rate => true
+          .theme
+            = review.theme
+          .date
+            = review.created_at
+        .review-user
+          = "by #{review.user.first_name} #{review.user.last_name}"
+        .review-text
+          = review.text

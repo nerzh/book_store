@@ -22,11 +22,13 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-
+#
+gem 'byebug'
 
 
 gem 'pg'
+#
+gem 'railroady'
 #
 gem 'friendly_id', '5.1.0'
 #
@@ -53,9 +55,24 @@ gem "activerecord-import", '~> 0.10.0'
 gem 'sprockets', '2.12.3'
 #
 gem 'kaminari', '~> 0.16.3'
-
-
-
+#
+gem 'rails_admin', '~> 0.8.1'
+#
+gem 'aasm'
+#
+gem 'wicked', '~> 1.2', '>= 1.2.1'
+#
+gem 'ratyrate'
+#
+#gem 'disposable'
+#
+# gem 'forms'
+#
+# gem 'reform-rails', '~> 0.1.0'
+#
+# gem 'reform'
+#
+gem 'simple_form', '~> 3.2', '>= 3.2.1'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -67,8 +84,29 @@ gem 'kaminari', '~> 0.16.3'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+
+  gem 'rspec-rails', '~> 3.2.1'
+
+  gem 'capybara'
+
+  gem 'factory_girl_rails'
+
+  gem 'faker'
+
+  gem 'selenium-webdriver'
+
+  gem 'database_cleaner'
+
+  gem 'shoulda-matchers'
+
+  gem 'rspec-retry'
+
+  gem 'rspec-rails-mocha', '~> 0.3.1'
+
+  gem "rspec-collection_matchers", "~> 1.1.2"
+
+  gem 'active_mocker'
+
 end
 
 group :development do
