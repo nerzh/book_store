@@ -11,7 +11,6 @@ class CheckoutController < ApplicationController
   def show
     if order = get_order
       @checkout_form = CheckoutForm.new(current_user, order: order)
-      # byebug
     else
       @checkout_form = CheckoutForm.new(current_user)
     end
@@ -21,18 +20,20 @@ class CheckoutController < ApplicationController
 
   def update
     case step
-    when :address
-      books = Book.where(id: session[:cart].keys)
-      items = []
-      books.each do |book|
-        items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
-      end
-      CheckoutForm.new(current_user, order: get_order, items: items).submit(params[:order])
-    else
-      CheckoutForm.new(current_user, order: get_order).submit(params[:order])
+      when :address
+        books = Book.where(id: session[:cart].keys)
+        items = []
+        books.each do |book|
+          items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
+        end
+        checkout_form = CheckoutForm.new(current_user, order: get_order, items: items, params: params[:order])
+        checkout_form.submit
+        checkout_form.save
+      else
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: params[:order])
+        checkout_form.submit
+        checkout_form.save
     end
-
-    # @user.attributes = params[:user]
     render_wizard current_user
   end
 
