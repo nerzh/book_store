@@ -5,7 +5,7 @@ class CheckoutForm
     string.gsub(/((\w)([A-Z]))/,'\2_\3').downcase
   end
 
-  #
+  #name params
   def self.model_name
     ActiveModel::Name.new(self, nil, "Order")
   end
@@ -51,12 +51,16 @@ class CheckoutForm
   def save
     if valid?
       models = get_model_for_save
-
       while model1 = models.delete( models[0] )
         @@models.each{ |model2| save_models(model1, model2) }
       end
+
+      return true
     end
+    false
   end
+
+  private
 
   def save_models(model1, model2)
     self_model1 = method( self.class.snake(model1.to_s) ).call

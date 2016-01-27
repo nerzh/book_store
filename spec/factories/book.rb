@@ -251,3 +251,16 @@ FactoryGirl.define do
   end
 
 end
+
+FactoryGirl.define do
+
+  factory :delivery do
+    type { Faker::Lorem.word }
+    price { Random.rand(1000..100000) }
+
+    trait :test do
+      order
+    end
+  end
+
+end

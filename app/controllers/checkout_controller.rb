@@ -26,11 +26,11 @@ class CheckoutController < ApplicationController
         books.each do |book|
           items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
         end
-        checkout_form = CheckoutForm.new(current_user, order: get_order, items: items, params: params[:order])
+        checkout_form = CheckoutForm.new(current_user, order: get_order, items: items, params: parameters)
         checkout_form.submit
         checkout_form.save
       else
-        checkout_form = CheckoutForm.new(current_user, order: get_order, params: params[:order])
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
         checkout_form.submit
         checkout_form.save
     end
@@ -44,6 +44,17 @@ class CheckoutController < ApplicationController
   end
 
   def parameters
-
+    case step
+      when :address
+        params.require(:order).permit(:order_billing_address_first_name, :order_billing_address_last_name,
+                                      :order_billing_address_street, :order_billing_address_city,
+                                      :order_billing_address_country_id, :order_billing_address_zip,
+                                      :order_billing_address_phone)
+      when :delivery
+        params.require(:order).permit(:order_delivery_id)
+      when :payment
+        params.require(:order).permit(:credit_card_number, :credit_card_cvv, :credit_card_exp_date,
+                                      :credit_card_first_name, :credit_card_last_name)
+    end
   end
 end
