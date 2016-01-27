@@ -11,8 +11,6 @@ class User < ActiveRecord::Base
   has_one  :billing_address,  dependent: :delete
   has_one  :credit_card,      dependent: :delete
 
-  # validates_associated :orders
-
   ratyrate_rater
 
 end

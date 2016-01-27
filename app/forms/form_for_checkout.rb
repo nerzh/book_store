@@ -34,51 +34,40 @@ class CheckoutForm
   def initialize(current_user, items: nil, params: {}, order: nil)
     self.user                   = current_user
     self.order                  = Order.new(user_id: current_user.id) unless self.order = order
-    # self.order_billing_address  = self.order.order_billing_address
-    # self.order_shipping_address = self.order.order_shipping_address
-    self.order_billing_address  = OrderBillingAddress.where(order_id: self.order.id).first if self.order.order_billing_address != nil
-    self.order_shipping_address = OrderShippingAddress.where(order_id: self.order.id).first if self.order.order_shipping_address != nil
-    self.order_billing_address  = OrderBillingAddress.new if self.order.order_billing_address == nil
-    self.order_shipping_address = OrderShippingAddress.new if self.order.order_shipping_address == nil
-
-    # self.credit_card            = self.user.build_credit_card unless self.credit_card = self.user.credit_card
+    self.order_billing_address  = OrderBillingAddress.new  unless self.order_billing_address  = self.order.order_billing_address
+    self.order_shipping_address = OrderShippingAddress.new unless self.order_shipping_address = self.order.order_shipping_address
+    self.credit_card            = CreditCard.new unless self.credit_card = self.user.credit_card
 
     items.each{ |item| self.order.order_items << item if item.class == OrderItem } if items
   end
 
   def submit(params)
-
     update_attributes(params)
-
     models = get_model_for_save(params)
 
-    # byebug
-
-    models.each do |model|
-      save_model = method( self.class.snake(model.to_s) ).call
-      # byebug
-      # self_model.save and order.save and user.save if self_model.valid?
-      # user.save and order.save and self_model.save if self_model.valid?
-
-      # byebug
-
-      order.save if self_model.valid?
-      save_model.save if save_model.valid?
-
-      # if self_model.valid?
-      #   ActiveRecord::Base.transaction do
-      #     user.save!
-      #     order.save!
-      #     self_model.save!
-      #   end
-      # end
-      byebug
-
+    while model1 = models.delete( models[0] )
+      @@models.each{ |model2| save(model1, model2) }
     end
+  end
 
-    # if valid?
-    #   models.each{ |model| method( self.class.snake(model.to_s) ).call.save }
-    # end
+  def save(model1, model2)
+    self_model1 = method( self.class.snake(model1.to_s) ).call
+    self_model2 = method( self.class.snake(model2.to_s) ).call
+
+    case get_association(model1, model2)
+      when :belongs_to
+        self_model1.send( "#{self.class.snake(model2.to_s)}=", self_model2 )
+        self_model1.save
+      when :has_one
+        self_model1.send( "#{self.class.snake(model2.to_s)}=", self_model2 )
+        self_model1.save
+      when :has_many
+        self_model1.send( "#{self.class.snake(model2.to_s)}<<", self_model2 )
+        self_model1.save
+      when :has_and_belongs_to_many
+        self_model1.send( "#{self.class.snake(model2.to_s)}<<", self_model2 )
+        self_model1.save
+    end
   end
 
   def validation_models
@@ -119,6 +108,10 @@ class CheckoutForm
       end
     end
     models.uniq!
+  end
+
+  def get_association(class1, class2)
+    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first&.macro
   end
 
 end

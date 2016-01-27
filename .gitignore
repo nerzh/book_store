@@ -19,6 +19,7 @@
 #
 /config/database.yml
 /.idea
+/.byebug_history
 *.DS_Store
 /doc
 /public
