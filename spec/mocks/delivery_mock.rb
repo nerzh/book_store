@@ -7,11 +7,11 @@ class DeliveryMock < ActiveMocker::Base
 #_class_methods.erb
   class << self
     def attributes
-      @attributes ||= HashWithIndifferentAccess.new({"id"=>nil, "type"=>nil, "price"=>0, "created_at"=>nil, "updated_at"=>nil}).merge(super)
+      @attributes ||= HashWithIndifferentAccess.new({"id"=>nil, "name"=>nil, "price"=>0, "created_at"=>nil, "updated_at"=>nil}).merge(super)
     end
 
     def types
-      @types ||= ActiveMocker::HashProcess.new({ id: Fixnum, type: String, price: Fixnum, created_at: DateTime, updated_at: DateTime }, method(:build_type)).merge(super)
+      @types ||= ActiveMocker::HashProcess.new({ id: Fixnum, name: String, price: Fixnum, created_at: DateTime, updated_at: DateTime }, method(:build_type)).merge(super)
     end
 
     def associations
@@ -29,7 +29,7 @@ class DeliveryMock < ActiveMocker::Base
     private :mocked_class
 
     def attribute_names
-      @attribute_names ||= ["id", "type", "price", "created_at", "updated_at"] | super
+      @attribute_names ||= ["id", "name", "price", "created_at", "updated_at"] | super
     end
 
     def primary_key
@@ -53,12 +53,12 @@ class DeliveryMock < ActiveMocker::Base
   def id=(val)
     write_attribute(:id, val)
   end
-  def type
-    read_attribute(:type)
+  def name
+    read_attribute(:name)
   end
 
-  def type=(val)
-    write_attribute(:type, val)
+  def name=(val)
+    write_attribute(:name, val)
   end
   def price
     read_attribute(:price)

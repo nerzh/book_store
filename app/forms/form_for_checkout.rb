@@ -11,8 +11,7 @@ class CheckoutForm
   end
 
   #models for update
-  @@models = [ User,
-               Order,
+  @@models = [ Order,
                OrderBillingAddress,
                OrderShippingAddress,
                CreditCard ]
@@ -34,11 +33,10 @@ class CheckoutForm
   validate :validation_models
 
   def initialize(current_user, items: nil, params: {}, order: nil)
-    self.user                   = current_user
     self.order                  = Order.new(user_id: current_user.id) unless self.order = order
     self.order_billing_address  = OrderBillingAddress.new             unless self.order_billing_address  = self.order.order_billing_address
     self.order_shipping_address = OrderShippingAddress.new            unless self.order_shipping_address = self.order.order_shipping_address
-    self.credit_card            = CreditCard.new                      unless self.credit_card            = self.user.credit_card
+    self.credit_card            = CreditCard.new                      unless self.credit_card            = current_user.credit_card
 
     self.params                 = params                              unless params.empty?
     items.each{ |item| self.order.order_items << item if item.class == OrderItem } if items and self.order.order_items.empty?
@@ -74,10 +72,10 @@ class CheckoutForm
         self_model1.send( "#{self.class.snake(model2.to_s)}=", self_model2 )
         self_model1.save
       when :has_many
-        self_model1.send( "#{self.class.snake(model2.to_s)}<<", self_model2 )
+        self_model1.method("#{model2.table_name}").call << self_model2
         self_model1.save
       when :has_and_belongs_to_many
-        self_model1.send( "#{self.class.snake(model2.to_s)}<<", self_model2 )
+        self_model1.method("#{model2.table_name}").call << self_model2
         self_model1.save
     end
   end
