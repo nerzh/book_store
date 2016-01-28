@@ -48,17 +48,17 @@ class CheckoutController < ApplicationController
     case step
       when :address
         params.require(:order).permit(:order_billing_address_first_name, :order_billing_address_last_name,
-                                      :order_billing_address_street, :order_billing_address_city,
+                                      :order_billing_address_street,     :order_billing_address_city,
                                       :order_billing_address_country_id, :order_billing_address_zip,
-                                      :order_billing_address_phone, :order_shipping_address_first_name,
+                                      :order_billing_address_phone,      :order_shipping_address_first_name,
                                       :order_shipping_address_last_name, :order_shipping_address_street,
-                                      :order_shipping_address_city, :order_shipping_address_country_id,
-                                      :order_shipping_address_zip, :order_shipping_address_phone)
+                                      :order_shipping_address_city,      :order_shipping_address_country_id,
+                                      :order_shipping_address_zip,       :order_shipping_address_phone)
       when :delivery
         params.require(:order).permit(:order_delivery_id)
       when :payment
-        params.require(:order).permit(:credit_card_number, :credit_card_cvv, :credit_card_exp_date,
-                                      :credit_card_first_name, :credit_card_last_name)
+        params.require(:order).permit(:credit_card_number,    :credit_card_cvv,        :credit_card_exp_year,
+                                      :credit_card_exp_month, :credit_card_first_name, :credit_card_last_name)
     end
   end
 end

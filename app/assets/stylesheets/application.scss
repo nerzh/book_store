@@ -439,3 +439,14 @@ radio
   //justify-content: space-around;
   align-items: center;
 }
+exp_date
+{
+  -webkit-justify-content: space-between !important;
+  justify-content: space-between !important;
+
+  width: 280px;
+}
+.month, .year
+{
+  width: 130px !important;
+}
