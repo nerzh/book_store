@@ -2,7 +2,7 @@ require_relative '../forms/form_for_checkout'
 class CheckoutController < ApplicationController
 
   before_action :authenticate_user!
-  before_action -> { redirect_to shop_index_path if session[:cart].nil? or session[:cart].empty? }
+  before_action -> { redirect_to shop_index_path if session[:cart].nil? or session[:cart].empty? and !get_order }
 
   include Wicked::Wizard
   steps :address, :delivery, :payment, :confirm, :complete
@@ -28,11 +28,12 @@ class CheckoutController < ApplicationController
         end
         checkout_form = CheckoutForm.new(current_user, order: get_order, items: items, params: parameters)
         checkout_form.submit
-        checkout_form.save
+        jump_to(step) and return unless checkout_form.save
+        session[:cart].clear
       else
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
         checkout_form.submit
-        checkout_form.save
+        jump_to(step) unless checkout_form.save
     end
     render_wizard current_user
   end
@@ -49,7 +50,10 @@ class CheckoutController < ApplicationController
         params.require(:order).permit(:order_billing_address_first_name, :order_billing_address_last_name,
                                       :order_billing_address_street, :order_billing_address_city,
                                       :order_billing_address_country_id, :order_billing_address_zip,
-                                      :order_billing_address_phone)
+                                      :order_billing_address_phone, :order_shipping_address_first_name,
+                                      :order_shipping_address_last_name, :order_shipping_address_street,
+                                      :order_shipping_address_city, :order_shipping_address_country_id,
+                                      :order_shipping_address_zip, :order_shipping_address_phone)
       when :delivery
         params.require(:order).permit(:order_delivery_id)
       when :payment

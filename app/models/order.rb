@@ -14,7 +14,8 @@ class Order < ActiveRecord::Base
   validates :total_price, :aasm_state, presence: true
 
   after_initialize -> { self.total_price = 0 if self.total_price == nil }
-  after_initialize :get_address
+  after_initialize -> { self.delivery_id = Delivery.first.id if self.delivery_id == nil }
+  after_initialize :get_address, :if => :new_record?
 
   aasm do
     state :in_progress, :initial => true

@@ -11,6 +11,7 @@ class CartController < ApplicationController
 
   ## GET
   def show
+    redirect_to checkout_path(:address) and return if get_order
     @total_price = 0
     @cart = {}
     books = Book.where(id: session[:cart].keys)

@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_user!
 
   def get_order
-    Order.where(user_id: current_user.id, aasm_state: 'in_progress').first
+    Order.where(user_id: current_user.id, aasm_state: 'in_progress').first if current_user
   end
 end
