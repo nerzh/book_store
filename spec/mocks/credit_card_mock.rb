@@ -7,11 +7,11 @@ class CreditCardMock < ActiveMocker::Base
 #_class_methods.erb
   class << self
     def attributes
-      @attributes ||= HashWithIndifferentAccess.new({"id"=>nil, "cvv"=>nil, "exp_date"=>nil, "first_name"=>nil, "last_name"=>nil, "user_id"=>nil, "created_at"=>nil, "updated_at"=>nil, "number"=>nil, "exp_month"=>nil, "exp_year"=>nil}).merge(super)
+      @attributes ||= HashWithIndifferentAccess.new({"id"=>nil, "number"=>nil, "cvv"=>nil, "first_name"=>nil, "last_name"=>nil, "user_id"=>nil, "created_at"=>nil, "updated_at"=>nil, "exp_month"=>nil, "exp_year"=>nil}).merge(super)
     end
 
     def types
-      @types ||= ActiveMocker::HashProcess.new({ id: Fixnum, cvv: Fixnum, exp_date: Date, first_name: String, last_name: String, user_id: Fixnum, created_at: DateTime, updated_at: DateTime, number: String, exp_month: Fixnum, exp_year: Fixnum }, method(:build_type)).merge(super)
+      @types ||= ActiveMocker::HashProcess.new({ id: Fixnum, number: String, cvv: Fixnum, first_name: String, last_name: String, user_id: Fixnum, created_at: DateTime, updated_at: DateTime, exp_month: Fixnum, exp_year: Fixnum }, method(:build_type)).merge(super)
     end
 
     def associations
@@ -29,7 +29,7 @@ class CreditCardMock < ActiveMocker::Base
     private :mocked_class
 
     def attribute_names
-      @attribute_names ||= ["id", "cvv", "exp_date", "first_name", "last_name", "user_id", "created_at", "updated_at", "number", "exp_month", "exp_year"] | super
+      @attribute_names ||= ["id", "number", "cvv", "first_name", "last_name", "user_id", "created_at", "updated_at", "exp_month", "exp_year"] | super
     end
 
     def primary_key
@@ -53,19 +53,19 @@ class CreditCardMock < ActiveMocker::Base
   def id=(val)
     write_attribute(:id, val)
   end
+  def number
+    read_attribute(:number)
+  end
+
+  def number=(val)
+    write_attribute(:number, val)
+  end
   def cvv
     read_attribute(:cvv)
   end
 
   def cvv=(val)
     write_attribute(:cvv, val)
-  end
-  def exp_date
-    read_attribute(:exp_date)
-  end
-
-  def exp_date=(val)
-    write_attribute(:exp_date, val)
   end
   def first_name
     read_attribute(:first_name)
@@ -101,13 +101,6 @@ class CreditCardMock < ActiveMocker::Base
 
   def updated_at=(val)
     write_attribute(:updated_at, val)
-  end
-  def number
-    read_attribute(:number)
-  end
-
-  def number=(val)
-    write_attribute(:number, val)
   end
   def exp_month
     read_attribute(:exp_month)

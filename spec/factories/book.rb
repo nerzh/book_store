@@ -154,7 +154,7 @@ end
 FactoryGirl.define do
 
   factory :credit_card do
-    number { Faker::Business.credit_card_number }
+    number { Faker::Business.credit_card_number.gsub(/-/, '') }
     cvv { rand(100..999) }
     exp_month { Random.rand(1..12) }
     exp_year { Random.rand(2016..3000) }
