@@ -26,8 +26,8 @@
             %item_total(style='margin-top: 5px')
               = "ITEM TOTAL:  #{show_price(@checkout_form.order_total_price)}"
             %item_delivery(style='margin-top: 5px')
-              = "SHIPPING:  #{show_price(@checkout_form.order.delivery.price)}"
+              = "SHIPPING:  #{show_price(@checkout_form.order.delivery&.price)}"
             %order_total
-              = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price + @checkout_form.order.delivery.price)}"
+              = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price + @checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0)}"
         .submit
           = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success'
