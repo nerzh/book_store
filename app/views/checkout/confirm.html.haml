@@ -1,14 +1,67 @@
 .content
   .content-flex
-    %checkout-title CHECKOUT
-    %ul.nav.nav-tabs
-      %li
-        %a(href= "address")  Address
-      %li
-        %a(href= "delivery") Delivery
-      %li
-        %a(href= "payment")  Payment
-      %li.active
-        %a(href= "confirm")  Confirm
-      %li
-        %a(href= "complete") Complete
+    .checkout.part-book-card
+      .checkout-tab.review-text
+        %checkout-title CHECKOUT
+        %ul.nav.nav-tabs
+          %li
+            %a(href= "address")  Address
+          %li
+            %a(href= "delivery") Delivery
+          %li
+            %a(href= "payment")  Payment
+          %li.active
+            %a(href= "confirm")  Confirm
+          %li
+            %a(href= "complete") Complete
+      %confirm-content.cart-book
+        %shipping
+          Shipping address
+          %div
+          %div
+            = @checkout_form.order_shipping_address_first_name
+          %div
+            = @checkout_form.order_shipping_address_last_name
+          %div
+            = @checkout_form.order_shipping_address_street
+          %div
+            = @checkout_form.order_shipping_address_city
+          %div
+            = @checkout_form.order.order_shipping_address.country.name
+          %div
+            = @checkout_form.order_shipping_address_zip
+          %div
+            = @checkout_form.order_shipping_address_phone
+        %billing
+          Billing address
+          %div
+          %div
+            = @checkout_form.order_billing_address_first_name
+          %div
+            = @checkout_form.order_billing_address_last_name
+          %div
+            = @checkout_form.order_billing_address_street
+          %div
+            = @checkout_form.order_billing_address_city
+          %div
+            = @checkout_form.order_billing_address.country.name
+          %div
+            = @checkout_form.order_billing_address_zip
+          %div
+            = @checkout_form.order_billing_address_phone
+        %shipments
+          Shipments
+          %div
+          %div
+            = @checkout_form.order.delivery.name
+        %payment
+          Payment information
+          %div
+          %div
+            = @checkout_form.credit_card_first_name
+          %div
+            = @checkout_form.credit_card_last_name
+          %div
+            = "**** **** **** #{@checkout_form.credit_card_number[12..16]}"
+          %div
+            = "#{@checkout_form.credit_card_exp_month}/#{@checkout_form.credit_card_exp_year}"
