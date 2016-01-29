@@ -76,6 +76,8 @@ gem 'simple_form', '~> 3.2', '>= 3.2.1'
 
 gem 'factory_girl_rails'
 
+gem 'faker'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -90,8 +92,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.2.1'
 
   gem 'capybara'
-
-  gem 'faker'
 
   gem 'selenium-webdriver'
 
