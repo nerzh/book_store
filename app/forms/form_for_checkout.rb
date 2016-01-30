@@ -34,11 +34,11 @@ class CheckoutForm
 
   def initialize(current_user, params: {}, order: nil)
     self.order                  = order
-    self.order_billing_address  = OrderBillingAddress.new             unless self.order_billing_address  = self.order.order_billing_address
-    self.order_shipping_address = OrderShippingAddress.new            unless self.order_shipping_address = self.order.order_shipping_address
-    self.credit_card            = CreditCard.new                      unless self.credit_card            = self.order.credit_card
+    self.order_billing_address  = OrderBillingAddress.new  unless self.order_billing_address  = self.order.order_billing_address
+    self.order_shipping_address = OrderShippingAddress.new unless self.order_shipping_address = self.order.order_shipping_address
+    self.credit_card            = CreditCard.new           unless self.credit_card            = self.order.credit_card
 
-    self.params                 = params                              unless params.empty?
+    self.params                 = params
   end
 
   def submit
