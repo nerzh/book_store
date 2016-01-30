@@ -12,7 +12,14 @@ class CheckoutController < ApplicationController
     if order = get_order
       @checkout_form = CheckoutForm.new(current_user, order: order)
     else
-      @checkout_form = CheckoutForm.new(current_user)
+      books = Book.where(id: session[:cart].keys)
+      items = []
+      books.each do |book|
+        items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
+      end
+      order = Order.create(user_id: current_user.id)
+      order.order_items << items
+      @checkout_form = CheckoutForm.new(current_user, order: order)
     end
 
     render_wizard
@@ -21,16 +28,12 @@ class CheckoutController < ApplicationController
   def update
     case step
       when :address
-        books = Book.where(id: session[:cart].keys)
-        items = []
-        books.each do |book|
-          items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
-        end
-        checkout_form = CheckoutForm.new(current_user, order: get_order, items: items, params: parameters)
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
         checkout_form.submit
-        jump_to(step) and return unless checkout_form.save
+        jump_to(step) and render_wizard and return unless checkout_form.save
         session[:cart].clear
       else
+        jump_to(:address) and render_wizard and return unless session[:cart].empty?
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
         checkout_form.submit
         jump_to(step) unless checkout_form.save

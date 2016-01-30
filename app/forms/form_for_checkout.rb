@@ -32,14 +32,13 @@ class CheckoutForm
   #validation
   validate :validation_models
 
-  def initialize(current_user, items: nil, params: {}, order: nil)
-    self.order                  = Order.new(user_id: current_user.id) unless self.order = order
+  def initialize(current_user, params: {}, order: nil)
+    self.order                  = order
     self.order_billing_address  = OrderBillingAddress.new             unless self.order_billing_address  = self.order.order_billing_address
     self.order_shipping_address = OrderShippingAddress.new            unless self.order_shipping_address = self.order.order_shipping_address
-    self.credit_card            = CreditCard.new                      unless self.credit_card            = current_user.credit_card
+    self.credit_card            = CreditCard.new                      unless self.credit_card            = self.order.credit_card
 
     self.params                 = params                              unless params.empty?
-    items.each{ |item| self.order.order_items << item if item.class == OrderItem } if items and self.order.order_items.empty?
   end
 
   def submit
