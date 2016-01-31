@@ -1,17 +1,20 @@
 require_relative '../forms/form_for_checkout'
 class CheckoutController < ApplicationController
-
   before_action :authenticate_user!
-  before_action -> { redirect_to shop_index_path if session[:cart].nil? or session[:cart].empty? and !get_order }
 
   include Wicked::Wizard
   steps :address, :delivery, :payment, :confirm, :complete
 
+  before_action -> { redirect_to shop_index_path         if session[:cart].nil? or session[:cart].empty? and !get_order and
+                                                            [:address, :delivery, :payment, :confirm].include?(step) }
+  before_action -> { redirect_to checkout_path(:address) if session[:cart].nil? or session[:cart].empty? and
+                                                            get_order and step == :complete }
 
   def show
     if order = get_order
       @checkout_form = CheckoutForm.new(current_user, order: order)
     else
+      @checkout_form = CheckoutForm.new(current_user, order: current_user.orders.last) and render_wizard and return if step == :complete
       books = Book.where(id: session[:cart].keys)
       items = []
       books.each do |book|
@@ -32,6 +35,8 @@ class CheckoutController < ApplicationController
         checkout_form.submit
         jump_to(step) and render_wizard and return unless checkout_form.save
         session[:cart].clear
+      when :confirm
+        get_order.completed!
       else
         jump_to(:address) and render_wizard and return unless session[:cart].empty?
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
@@ -45,6 +50,10 @@ class CheckoutController < ApplicationController
 
   def redirect_to_finish_wizard
     redirect_to root_path, notice: "Thank you for signing up."
+  end
+
+  def finish_wizard_path
+    user_path(current_user)
   end
 
   def parameters

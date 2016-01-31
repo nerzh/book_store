@@ -16,6 +16,7 @@ class Book < ActiveRecord::Base
   ratyrate_rater
 
   def show_price
+    return 0.0 if self.price.nil?
     (self.price.to_d/1000).round 2
   end
 

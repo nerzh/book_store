@@ -18,22 +18,22 @@
         .checkout-content.cart-book
           .checkout-billing.address
             BILLING ADDRESS
-            = f.text_field :order_billing_address_first_name, placeholder: "First name", class: 'form-control'
-            = f.text_field :order_billing_address_last_name,  placeholder: "Last name", class: 'form-control'
-            = f.text_field :order_billing_address_street,     placeholder: "Street", class: 'form-control'
-            = f.text_field :order_billing_address_city,       placeholder: "City", class: 'form-control'
+            = f.text_field :order_billing_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_last_name,  placeholder: "Last name", class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_street,     placeholder: "Street", class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_city,       placeholder: "City", class: 'form-control input-checkout'
             = f.collection_select(:order_billing_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address"})
-            = f.text_field :order_billing_address_zip,        placeholder: "Zipcode", class: 'form-control'
-            = f.text_field :order_billing_address_phone,      placeholder: "Phone", class: 'form-control'
+            = f.text_field :order_billing_address_zip,        placeholder: "Zipcode", class: 'form-control input-checkout'
+            = f.text_field :order_billing_address_phone,      placeholder: "Phone", class: 'form-control input-checkout'
           .checkout-shipping.address
             SHIPPING ADDRESS
-            = f.text_field :order_shipping_address_first_name, placeholder: "First name", class: 'form-control'
-            = f.text_field :order_shipping_address_last_name,  placeholder: "Last name", class: 'form-control'
-            = f.text_field :order_shipping_address_street,     placeholder: "Street", class: 'form-control'
-            = f.text_field :order_shipping_address_city,       placeholder: "City", class: 'form-control'
-            = f.collection_select(:order_shipping_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address"})
-            = f.text_field :order_shipping_address_zip,        placeholder: "Zipcode", class: 'form-control'
-            = f.text_field :order_shipping_address_phone,      placeholder: "Phone", class: 'form-control'
+            = f.text_field :order_shipping_address_first_name, placeholder: "First name", class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_last_name,  placeholder: "Last name", class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_street,     placeholder: "Street", class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_city,       placeholder: "City", class: 'form-control input-checkout'
+            = f.collection_select(:order_shipping_address_country_id, Country.all, :id, :name, {}, {class: "form-control input-address input-checkout"})
+            = f.text_field :order_shipping_address_zip,        placeholder: "Zipcode", class: 'form-control input-checkout'
+            = f.text_field :order_shipping_address_phone,      placeholder: "Phone", class: 'form-control input-checkout'
           .checkout-summary.address
             ORDER SUMMARY
             %item_total(style='margin-top: 5px')
@@ -41,4 +41,4 @@
             %order-total
               = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price)}"
         .submit
-          = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success'
+          = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success input-checkout'

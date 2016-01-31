@@ -19,28 +19,28 @@ class Order < ActiveRecord::Base
 
   aasm do
     state :in_progress, :initial => true
-    state :complited
+    state :completed
     state :shipped
 
-    event :complete do
+    event :completed do
       after do
         self.update(completed_date: Time.now)
       end
-      transitions :from => :in_progress, :to => :complited
+      transitions :from => :in_progress, :to => :completed
     end
 
     event :shipped do
       after do
         self.update(completed_date: Time.now)
       end
-      transitions :from => [:in_progress, :complited], :to => :shipped
+      transitions :from => [:in_progress, :completed], :to => :shipped
     end
 
     event :in_progress do
       after do
         self.update(completed_date: nil)
       end
-      transitions :from => [:complited, :shipped], :to => :in_progress
+      transitions :from => [:completed, :shipped], :to => :in_progress
     end
   end
 
