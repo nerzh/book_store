@@ -23,11 +23,14 @@
               %li
                 = link_to 'CART', cart_path
               %li
-                = link_to 'Settings', 's'
+                = link_to 'Settings', settings_path
               %li
                 = link_to 'Orders', 's'
               %li
-                = link_to 'Sing_out', destroy_user_session_path, method: 'DELETE'
+                - if current_user
+                  = link_to 'Sing_out', destroy_user_session_path, method: 'DELETE'
+                - else
+                  = link_to 'Sing_in', new_user_session_path
       .myrow
         .col-1
           = yield

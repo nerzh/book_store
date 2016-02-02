@@ -15,6 +15,12 @@ Rails.application.routes.draw do
 
   resources :orders, controller: 'order'
 
+  resource :settings do
+    collection do
+      patch 'update_password'
+    end
+  end
+
   resource  :cart, controller: 'cart' do
     collection do
       post 'add'
