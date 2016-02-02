@@ -70,7 +70,7 @@
           %div
             = @checkout_form.credit_card_last_name
           %div
-            = "**** **** **** #{@checkout_form.credit_card_number[12..16]}"
+            = "**** **** **** #{@checkout_form.credit_card_number&[12..16]}"
           %div
             = "#{@checkout_form.credit_card_exp_month}/#{@checkout_form.credit_card_exp_year}"
       .order-content
@@ -110,7 +110,9 @@
                 %div= show_price(@total_price)
                 %div= show_price(@total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))
             %tr
-              %td= link_to 'PLACE ORDER', wizard_path, class: "btn btn-success", method: 'PATCH'
+              %td.column-start-start
+                = link_to 'PLACE ORDER', wizard_path, class: "btn btn-success input-checkout", method: 'PATCH'
+                = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'btn btn-danger input-checkout'
               %td
               %td
               %td

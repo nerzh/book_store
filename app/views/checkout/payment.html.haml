@@ -34,5 +34,6 @@
               = "SHIPPING:  #{show_price(@checkout_form.order.delivery&.price)}"
             %order_total
               = "ORDER TOTAL: #{show_price(@checkout_form.order_total_price + (@checkout_form.order.delivery&.price ? @checkout_form.order.delivery.price : 0))}"
-        .submit
+        .submit.column-start-start
           = f.submit 'SAVE AND CONTINUE', class: 'form-control btn btn-success input-checkout'
+          = link_to 'DELETE ORDER', checkout_path, method: 'DELETE', class: 'form-control btn btn-danger input-checkout'

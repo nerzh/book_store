@@ -562,6 +562,18 @@ shipping *, billing *, shipments *, payment *
    justify-content: space-around;
    align-items: flex-start;
  }
+.wrap-start
+{
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  -webkit-align-content: flex-start;
+  -webkit-flex-direction: column;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  flex-direction: column;
+}
 .w100
 {
   width: 100%;

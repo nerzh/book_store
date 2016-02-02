@@ -38,7 +38,8 @@ class SettingsController < ApplicationController
   def update
     settings_form = SettingsForm.new(current_user, params: parameters)
     settings_form.submit
-    redirect_to root_path if settings_form.save
+    redirect_to root_path and return if settings_form.save
+    redirect_to settings_path
   end
 
   ##############   D E L E T E

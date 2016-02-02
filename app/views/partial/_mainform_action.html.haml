@@ -16,11 +16,12 @@
             %item-info.row-start-center
               %item-info-img= image_tag book.cover.normal
               %item-info-descr= book.description
-            = form_tag add_cart_path(id: book.id), method: 'POST', class: 'h100' do
-              %item-cart.row-start-center
-                %div= show_price(book.price)
-                %div= number_field_tag('quantity', 1, min: 1, max: 99, step: 1)
-                %div= submit_tag "Add to cart", class: 'btn'
+            %forms
+              = form_tag add_cart_path(id: book.id), method: 'POST', class: 'h100' do
+                %item-cart.row-start-center
+                  %div= show_price(book.price)
+                  %div= number_field_tag('quantity', 1, min: 1, max: 99, step: 1)
+                  %div= submit_tag "Add to cart", class: 'btn'
   / Controls
   %a.left.carousel-control{"data-slide" => "prev", :href => "#carousel-example-generic", :role => "button"}
     %span.glyphicon.glyphicon-chevron-left

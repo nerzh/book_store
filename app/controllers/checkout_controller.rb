@@ -3,7 +3,7 @@ class CheckoutController < ApplicationController
   before_action :authenticate_user!
 
   include Wicked::Wizard
-  steps :address, :delivery, :payment, :confirm, :complete
+  steps :address, :delivery, :payment, :confirm, :complete, :delete
 
   before_action -> { redirect_to shop_index_path         if session[:cart].nil? or session[:cart].empty? and !get_order and
                                                             [:address, :delivery, :payment, :confirm].include?(step) }
@@ -46,15 +46,11 @@ class CheckoutController < ApplicationController
     render_wizard current_user
   end
 
+  def destroy
+    get_order&.delete and redirect_to root_path
+  end
+
   private
-
-  def redirect_to_finish_wizard
-    redirect_to root_path, notice: "Thank you for signing up."
-  end
-
-  def finish_wizard_path
-    user_path(current_user)
-  end
 
   def parameters
     case step
