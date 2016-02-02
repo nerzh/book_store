@@ -4,7 +4,7 @@ class MainController < ApplicationController
 
   ## GET
   def index
-
+    @book = Book.all
   end
 
   ## GET

@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require_tree .
+
  *= require_self
  */
 
@@ -488,6 +489,30 @@ shipping *, billing *, shipments *, payment *
   justify-content: center;
   align-items: center;
 }
+.column-start-center
+{
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  -webkit-justify-content: flex-start;
+  -webkit-align-items: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.column-start-start
+{
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+  -webkit-justify-content: flex-start;
+  -webkit-align-items: flex-start;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 .row-start-center
 {
   display: -webkit-flex;
@@ -499,4 +524,65 @@ shipping *, billing *, shipments *, payment *
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+.row-center-center
+{
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.row-start-end
+{
+  display: -webkit-flex;
+  -webkit-flex-direction: row;
+  -webkit-justify-content: flex-start;
+  -webkit-align-items: flex-end;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.w100
+{
+  width: 100%;
+}
+.h100
+{
+  height: 100%;
+}
+content.column-start-start
+{
+  width: 820px;
+}
+item-content
+{
+  height: 300px;
+}
+titlebook
+{
+  font-size: 25px;
+}
+bookauthor
+{
+  margin-left: 30px;
+}
+item-info-img
+{
+  width: 180px;
+}
+item-cart
+{
+  height: 86px;
+  margin-left: 180px;
+}
+item-cart *
+{
+  margin-right: 15px;
 }

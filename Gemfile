@@ -72,8 +72,6 @@ gem 'ratyrate'
 #
 # gem 'reform'
 #
-gem 'simple_form', '~> 3.2', '>= 3.2.1'
-
 gem 'factory_girl_rails'
 
 gem 'faker'

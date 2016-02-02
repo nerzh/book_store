@@ -1,0 +1,30 @@
+#carousel-example-generic.carousel.slide{"data-ride" => "carousel"}
+  / Indicators
+  -#%ol.carousel-indicators
+  -#  %li.active{"data-slide-to" => "0", "data-target" => "#carousel-example-generic"}
+  -#  %li{"data-slide-to" => "1", "data-target" => "#carousel-example-generic"}
+  -#  %li{"data-slide-to" => "2", "data-target" => "#carousel-example-generic"}
+  / Wrapper for slides
+  .carousel-inner{:role => "listbox"}
+    - @book.each do |book|
+      .item(class="#{book == @book[0] ? 'active' : nil}")
+        %item-content.column-start-center.w100
+          %content.column-start-start.h100
+            %item-title.row-start-center
+              %titlebook= book.title
+              %bookauthor= "&nbsp;by #{book.authors.first.first_name} #{book.authors.first.last_name}".html_safe
+            %item-info.row-start-center
+              %item-info-img= image_tag book.cover.normal
+              %item-info-descr= book.description
+            = form_tag add_cart_path(id: book.id), method: 'POST', class: 'h100' do
+              %item-cart.row-start-center
+                %div= show_price(book.price)
+                %div= number_field_tag('quantity', 1, min: 1, max: 99, step: 1)
+                %div= submit_tag "Add to cart", class: 'btn'
+  / Controls
+  %a.left.carousel-control{"data-slide" => "prev", :href => "#carousel-example-generic", :role => "button"}
+    %span.glyphicon.glyphicon-chevron-left
+    %span.sr-only Previous
+  %a.right.carousel-control{"data-slide" => "next", :href => "#carousel-example-generic", :role => "button"}
+    %span.glyphicon.glyphicon-chevron-right
+    %span.sr-only Next
