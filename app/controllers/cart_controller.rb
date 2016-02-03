@@ -66,7 +66,7 @@ class CartController < ApplicationController
       session[:coupon]['number']   = nil
       session[:coupon]['discount'] = nil
     end
-    params[:cart].keys.each do |book_id|
+    params[:cart]&.keys&.each do |book_id|
       session[:cart].delete(book_id) and next if params[:cart][book_id] == ''
       session[:cart][book_id] = params[:cart][book_id]
     end

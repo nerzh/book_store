@@ -14,14 +14,10 @@ class CheckoutController < ApplicationController
     if order = get_order
       @checkout_form = CheckoutForm.new(current_user, order: order)
     else
-      @checkout_form = CheckoutForm.new(current_user, order: current_user.orders.last) and render_wizard and return if step == :complete
-      books = Book.where(id: session[:cart].keys)
-      items = []
-      books.each do |book|
-        items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
+      if step == :complete
+        @checkout_form = CheckoutForm.new(current_user, order: current_user.orders.last)
+        render_wizard and return
       end
-      order = Order.create(user_id: current_user.id)
-      order.order_items << items
       @checkout_form = CheckoutForm.new(current_user, order: order)
     end
 

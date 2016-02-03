@@ -14,8 +14,9 @@
               %titlebook= book.title
               %bookauthor= "&nbsp;by #{book.authors.first.first_name} #{book.authors.first.last_name}".html_safe
             %item-info.row-start-center
-              %item-info-img= image_tag book.cover.normal
-              %item-info-descr= book.description
+              %item-info-img.row-center-center
+                %img-normal= image_tag book.cover.normal, class: 'w100'
+              %item-info-descr.w100= book.description
             %forms
               = form_tag add_cart_path(id: book.id), method: 'POST', class: 'h100' do
                 %item-cart.row-start-center
