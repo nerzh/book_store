@@ -42,7 +42,7 @@ class CheckoutForm
     if step == :address
       books = Book.where(id: session[:cart].keys)
       books.each do |book|
-        items ||= [] and items << OrderItem.new(book_id: book.id, price: book.price, quantity: session[:cart][book.id.to_s])
+        items ||= [] and items << OrderItem.new(book_id: ook.id, price: ook.price, quantity: session[:cart][ook.id.to_s])
       end
       self.order.order_items << items
     end
