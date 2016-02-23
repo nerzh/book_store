@@ -12,13 +12,14 @@ class CheckoutController < ApplicationController
 
   def show
     if order = get_order
-      @checkout_form = CheckoutForm.new(current_user, order: order)
+      @checkout_form = CheckoutForm.new(current_user, order: order, session: session)
     else
       if step == :complete
         @checkout_form = CheckoutForm.new(current_user, order: current_user.orders.last)
         render_wizard and return
       end
-      @checkout_form = CheckoutForm.new(current_user, order: order)
+      @checkout_form = CheckoutForm.new(current_user, order: order, session: session)
+      session[:cart].clear
     end
 
     render_wizard
@@ -27,10 +28,9 @@ class CheckoutController < ApplicationController
   def update
     case step
       when :address
-        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
+        checkout_form = CheckoutForm.new(current_user, order: get_order)
         checkout_form.submit
         jump_to(step) and render_wizard and return unless checkout_form.save
-        session[:cart].clear
       when :confirm
         get_order.completed!
       else
@@ -43,7 +43,8 @@ class CheckoutController < ApplicationController
   end
 
   def destroy
-    get_order&.delete and redirect_to root_path
+    get_order&.delete
+    redirect_to root_path
   end
 
   private

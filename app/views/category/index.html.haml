@@ -5,9 +5,9 @@
       %ul.path
         %li Home
         %li Main
-      %ul.prod
+      %ul.prod.wrap-row-around-around
         - @books.each do |book|
-          %li.prod-card
+          %li.prod-card.column-around-center
             %prod-image
               = link_to image_tag("#{book.cover}"), book_path(book)
             %prod-title
@@ -18,7 +18,7 @@
         = paginate @books
     .content-flex-right
       SHOP BY CATEGORIES
-      %ul.categories
+      %ul.categories.column-start-center.w100
         - @categories.each do |cat|
           %li.cat
             = link_to "#{cat.title}", shop_path(cat)

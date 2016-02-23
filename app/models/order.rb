@@ -15,7 +15,7 @@ class Order < ActiveRecord::Base
 
   after_initialize -> { self.total_price = 0 if self.total_price == nil }
   after_initialize -> { self.delivery_id = Delivery.first&.id if self.delivery_id == nil }
-  after_initialize :get_address, :if => :new_record?
+  after_initialize :get_address_and_credit_card, :if => :new_record?
 
   aasm do
     state :in_progress, :initial => true
@@ -44,7 +44,7 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def get_address
+  def get_address_and_credit_card
     if self.user&.billing_address != nil
       billing_attr = self.user.billing_address.attributes.slice('first_name', 'last_name', 'street',
                                                                 'city', 'country_id', 'zip', 'phone')
@@ -55,6 +55,13 @@ class Order < ActiveRecord::Base
       shipping_attr = self.user.shipping_address.attributes.slice('first_name', 'last_name', 'street',
                                                                   'city', 'country_id', 'zip', 'phone')
       self.order_shipping_address = OrderShippingAddress.new( shipping_attr )
+    end
+
+    if self.user&.credit_card != nil
+    self.credit_card = self.user.credit_card
+    # credit_card_attr = self.user.credit_card.attributes.slice('first_name', 'last_name', 'street',
+    #                                                             'city', 'country_id', 'zip', 'phone')
+    # self.credit_card = OrderShippingAddress.new( credit_card_attr )
     end
   end
 end

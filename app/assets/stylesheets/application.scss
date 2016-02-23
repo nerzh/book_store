@@ -18,6 +18,13 @@
 
 @import "bootstrap/dist/css/bootstrap.min";
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
+
+body *
+{
+  font-family: 'Open Sans', sans-serif;
+}
+
 html
 {
   display: block;
@@ -26,7 +33,7 @@ html
   height: 100%;
   position: relative;
 }
-.body
+body
 {
   display: block;
   float: left;
@@ -130,51 +137,17 @@ html
 }
 .prod
 {
-  display: -webkit-flex;
-  -webkit-flex-direction: row;
-  -webkit-justify-content: flex-start;
-  -webkit-align-items: stretch;
-  -webkit-flex-wrap: wrap;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  flex-wrap: wrap;
-
   width: 100%;
   padding-left: 0px;
   list-style: none;
 }
 .prod-card
 {
-  display: -webkit-flex;
-  -webkit-flex-direction: column;
-  -webkit-justify-content: space-around;
-  -webkit-align-items: center;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-
-  //border: solid 1px #BBBBBB;
   width: 304px;
   height: 400px;
 }
-.catigories
+.categories
 {
-  display: -webkit-flex;
-  -webkit-flex-direction: column;
-  -webkit-justify-content: flex-start;
-  -webkit-align-items: flex-start;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  width: 100%;
   padding-left: 0px;
   list-style: none;
 }
