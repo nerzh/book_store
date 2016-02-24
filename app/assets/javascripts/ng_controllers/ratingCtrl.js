@@ -50,8 +50,10 @@ angular.module("bookStore")
             };
         };
 
-        $scope.rateFunction = function(rating) {
-                    console.log('Rating selected: ' + rating);
-                };
+        $scope.enter = function (value) {
+            if (value) {
+                $scope.request();
+            }
+        };
 
     }]);
