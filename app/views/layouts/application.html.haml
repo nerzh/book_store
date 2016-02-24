@@ -1,5 +1,5 @@
 !!!
-%html
+%html(ng-app='bookStore')
   %head
     %title= @title
     %meta(name='description' content="#{@description}")
@@ -7,7 +7,7 @@
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
-  %body
+  %body(ng-controller='rootCtrl')
     .container
       %nav.navbar.navbar-default
         .container-fluid

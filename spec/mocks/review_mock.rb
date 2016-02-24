@@ -15,11 +15,11 @@ class ReviewMock < ActiveMocker::Base
     end
 
     def associations
-      @associations ||= {:user=>nil, :book=>nil, :rate_average_without_dimension=>nil, :rating_average=>nil, :rates_without_dimension=>nil, :raters_without_dimension=>nil, :rating_rates=>nil, :rating_raters=>nil}.merge(super)
+      @associations ||= {:user=>nil, :book=>nil}.merge(super)
     end
 
     def associations_by_class
-      @associations_by_class ||= {"User"=>{:belongs_to=>[:user], :has_many=>[:raters_without_dimension, :rating_raters]}, "Book"=>{:belongs_to=>[:book]}, "RatingCache"=>{:has_one=>[:rate_average_without_dimension, :rating_average]}, "Rate"=>{:has_many=>[:rates_without_dimension, :rating_rates]}}.merge(super)
+      @associations_by_class ||= {"User"=>{:belongs_to=>[:user]}, "Book"=>{:belongs_to=>[:book]}}.merge(super)
     end
 
     def mocked_class
@@ -135,71 +135,6 @@ class ReviewMock < ActiveMocker::Base
   end
   alias_method :create_book!, :create_book
 
-# has_one
-  def rate_average_without_dimension
-    read_association(:rate_average_without_dimension)
-  end
-
-  def rate_average_without_dimension=(val)
-    write_association(:rate_average_without_dimension, val)
-    ActiveMocker::HasOne.new(val, child_self: self, foreign_key: 'cacheable_id').item
-  end
-
-  def build_rate_average_without_dimension(attributes={}, &block)
-    write_association(:rate_average_without_dimension, classes('RatingCache').new(attributes, &block)) if classes('RatingCache')
-  end
-
-  def create_rate_average_without_dimension(attributes={}, &block)
-    write_association(:rate_average_without_dimension, classes('RatingCache').new(attributes, &block)) if classes('RatingCache')
-  end
-  alias_method :create_rate_average_without_dimension!, :create_rate_average_without_dimension
-  def rating_average
-    read_association(:rating_average)
-  end
-
-  def rating_average=(val)
-    write_association(:rating_average, val)
-    ActiveMocker::HasOne.new(val, child_self: self, foreign_key: 'cacheable_id').item
-  end
-
-  def build_rating_average(attributes={}, &block)
-    write_association(:rating_average, classes('RatingCache').new(attributes, &block)) if classes('RatingCache')
-  end
-
-  def create_rating_average(attributes={}, &block)
-    write_association(:rating_average, classes('RatingCache').new(attributes, &block)) if classes('RatingCache')
-  end
-  alias_method :create_rating_average!, :create_rating_average
-
-# has_many
-  def rates_without_dimension
-    read_association(:rates_without_dimension, -> { ActiveMocker::HasMany.new([],foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: '') })
-  end
-
-  def rates_without_dimension=(val)
-    write_association(:rates_without_dimension, ActiveMocker::HasMany.new(val, foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: ''))
-  end
-  def raters_without_dimension
-    read_association(:raters_without_dimension, -> { ActiveMocker::HasMany.new([],foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('User'), source: 'rater') })
-  end
-
-  def raters_without_dimension=(val)
-    write_association(:raters_without_dimension, ActiveMocker::HasMany.new(val, foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('User'), source: 'rater'))
-  end
-  def rating_rates
-    read_association(:rating_rates, -> { ActiveMocker::HasMany.new([],foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: '') })
-  end
-
-  def rating_rates=(val)
-    write_association(:rating_rates, ActiveMocker::HasMany.new(val, foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: ''))
-  end
-  def rating_raters
-    read_association(:rating_raters, -> { ActiveMocker::HasMany.new([],foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('User'), source: 'rater') })
-  end
-
-  def rating_raters=(val)
-    write_association(:rating_raters, ActiveMocker::HasMany.new(val, foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('User'), source: 'rater'))
-  end
 
 # _scopes.erb
   module Scopes

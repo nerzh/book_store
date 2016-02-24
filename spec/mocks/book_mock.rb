@@ -15,11 +15,11 @@ class BookMock < ActiveMocker::Base
     end
 
     def associations
-      @associations ||= {:authors=>nil, :category=>nil, :ratings=>nil, :reviews=>nil, :orders=>nil, :order_items=>nil, :ratings_given=>nil}.merge(super)
+      @associations ||= {:authors=>nil, :category=>nil, :reviews=>nil, :orders=>nil, :order_items=>nil}.merge(super)
     end
 
     def associations_by_class
-      @associations_by_class ||= {"Author"=>{:has_and_belongs_to_many=>[:authors]}, "Category"=>{:belongs_to=>[:category]}, "Rate"=>{:has_many=>[:ratings, :ratings_given]}, "Review"=>{:has_many=>[:reviews]}, "Order"=>{:has_many=>[:orders]}, "OrderItem"=>{:has_many=>[:order_items]}}.merge(super)
+      @associations_by_class ||= {"Author"=>{:has_and_belongs_to_many=>[:authors]}, "Category"=>{:belongs_to=>[:category]}, "Review"=>{:has_many=>[:reviews]}, "Order"=>{:has_many=>[:orders]}, "OrderItem"=>{:has_many=>[:order_items]}}.merge(super)
     end
 
     def mocked_class
@@ -132,13 +132,6 @@ class BookMock < ActiveMocker::Base
   alias_method :create_category!, :create_category
 
 # has_many
-  def ratings
-    read_association(:ratings, -> { ActiveMocker::HasMany.new([],foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: '') })
-  end
-
-  def ratings=(val)
-    write_association(:ratings, ActiveMocker::HasMany.new(val, foreign_key: 'rateable_id', foreign_id: self.id, relation_class: classes('Rate'), source: ''))
-  end
   def reviews
     read_association(:reviews, -> { ActiveMocker::HasMany.new([],foreign_key: 'book_id', foreign_id: self.id, relation_class: classes('Review'), source: '') })
   end
@@ -159,13 +152,6 @@ class BookMock < ActiveMocker::Base
 
   def order_items=(val)
     write_association(:order_items, ActiveMocker::HasMany.new(val, foreign_key: 'book_id', foreign_id: self.id, relation_class: classes('OrderItem'), source: ''))
-  end
-  def ratings_given
-    read_association(:ratings_given, -> { ActiveMocker::HasMany.new([],foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('Rate'), source: '') })
-  end
-
-  def ratings_given=(val)
-    write_association(:ratings_given, ActiveMocker::HasMany.new(val, foreign_key: 'rater_id', foreign_id: self.id, relation_class: classes('Rate'), source: ''))
   end
 # has_and_belongs_to_many
   def authors

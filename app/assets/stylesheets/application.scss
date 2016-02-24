@@ -20,6 +20,29 @@
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
 
+// for angular rating directive
+@import "font-awesome-sprockets";
+@import "font-awesome";
+.star-rating {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+
+  .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+
+    &.filled {
+      color: #fd0;
+    }
+  }
+}
+
 body *
 {
   font-family: 'Open Sans', sans-serif;
@@ -269,6 +292,10 @@ body
 {
   margin-left: 0px;
 }
+.rating
+{
+  width: 150px;
+}
 .review-user
 {
   display: -webkit-flex;
@@ -297,6 +324,7 @@ body
   align-items: flex-start;
 
   width: 100%;
+  margin-bottom: 20px;
 }
 .cart-book
 {
@@ -487,3 +515,27 @@ img-normal
 {
   width: 180px;
 }
+#add_review
+{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+#add_review_theme
+{
+  margin-bottom: 20px;
+}
+#cancel_review
+{
+  margin-top: 20px;
+}
+.date
+{
+  max-width: 170px;
+  width: 100%;
+}
+.theme
+{
+  margin: 0px 15px 0px 15px;
+}
+
+

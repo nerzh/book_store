@@ -62,7 +62,7 @@ gem 'aasm'
 #
 gem 'wicked', '~> 1.2', '>= 1.2.1'
 #
-gem 'ratyrate'
+gem 'font-awesome-sass'
 #
 #gem 'disposable'
 #
@@ -103,7 +103,7 @@ group :development, :test do
 
   gem "rspec-collection_matchers", "~> 1.1.2"
 
-  gem 'active_mocker'
+  # gem 'active_mocker'
 
 end
 

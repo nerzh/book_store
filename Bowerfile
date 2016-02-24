@@ -17,3 +17,7 @@
 
 
 asset 'bootstrap'
+
+asset 'angular'
+asset 'underscore'
+asset 'angular-resource'

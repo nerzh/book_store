@@ -181,7 +181,4 @@ class OrderBillingAddressMock < ActiveMocker::Base
   end
 
   private_class_method :__new_relation__
-  def default_address
-    call_mock_method(method: __method__, caller: Kernel.caller, arguments: [])
-  end
 end

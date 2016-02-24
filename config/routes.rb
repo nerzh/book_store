@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   # resource :shop, only: [:show], controller: 'category' do
   # end
 
-  resources :shop, controller: 'category'
-
-  resources :books, controller: 'book'
-
-  resources :orders, controller: 'order'
+  resources :shop,     controller: 'category'
+  resources :books,    controller: 'book'
+  resources :orders,   controller: 'order'
+  resources :checkout, controller: 'checkout'
+  resources :reviews,  controller: 'review'
 
   resource :settings do
     collection do
@@ -26,8 +26,6 @@ Rails.application.routes.draw do
       post 'add'
     end
   end
-
-  resources  :checkout, controller: 'checkout'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
