@@ -1,6 +1,7 @@
 class CategoryController < ApplicationController
 
   before_action :define_category, only: [:show]
+  authorize_resource
 
   ##############   I N D E X   and   S H O W
 

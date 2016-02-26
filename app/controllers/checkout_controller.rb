@@ -1,6 +1,6 @@
 require_relative '../forms/form_for_checkout'
 class CheckoutController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   include Wicked::Wizard
   steps :address, :delivery, :payment, :confirm, :complete, :delete
@@ -9,6 +9,8 @@ class CheckoutController < ApplicationController
                                                             [:address, :delivery, :payment, :confirm].include?(step) }
   before_action -> { redirect_to checkout_path(:address) if session[:cart].nil? or session[:cart].empty? and
                                                             get_order and step == :complete }
+
+  authorize_resource :class => false
 
   def show
     if order = get_order

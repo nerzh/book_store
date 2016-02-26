@@ -1,6 +1,7 @@
 require_relative '../forms/form_for_reviews'
 class ReviewController < ApplicationController
   before_action :define_book, only: [:show]
+  authorize_resource
 
 ##############   I N D E X   and   S H O W
 

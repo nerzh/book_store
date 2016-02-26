@@ -15,9 +15,20 @@ class ApplicationController < ActionController::Base
     Order.where(user_id: current_user.id, aasm_state: 'in_progress').first if current_user
   end
 
+  # rescue_from CanCan::AccessDenied do |exception|
+  #   redirect_to root_url, alert: t('access_denied')
+  # end
+
   protected
 
   def verified_request?
     super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
   end
+
+  private
+
+  def current_ability
+    @current_ability ||= Ability.new(current_user, get_order)
+  end
+
 end
