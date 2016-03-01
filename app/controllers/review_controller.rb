@@ -1,6 +1,5 @@
 require_relative '../forms/form_for_reviews'
 class ReviewController < ApplicationController
-  before_action :define_book, only: [:show]
   authorize_resource
 
 ##############   I N D E X   and   S H O W
@@ -59,15 +58,11 @@ class ReviewController < ApplicationController
   private
 
   def define_review
-
     @review = Review.find(params[:id])
-
   end
 
   def params_review
-
     params.require(:review).permit(:rating_points, :rating_book_id, :rating_user_id, :review_theme,
                                    :review_text, :review_user_id, :review_book_id)
-
   end
 end

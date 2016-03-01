@@ -19,27 +19,27 @@ class Order < ActiveRecord::Base
   aasm do
     state :in_progress, :initial => true
     state :completed
-    state :shipped
+    state :shipping
 
-    event :completed do
+    event :complete do
       after do
         self.update(completed_date: Time.now)
       end
-      transitions :from => :in_progress, :to => :completed
+      transitions :from => :in_progress, :to => :complete
     end
 
-    event :shipped do
+    event :shipping do
       after do
         self.update(completed_date: Time.now)
       end
-      transitions :from => [:in_progress, :completed], :to => :shipped
+      transitions :from => [:in_progress, :complete], :to => :shipping
     end
 
     event :in_progress do
       after do
         self.update(completed_date: nil)
       end
-      transitions :from => [:completed, :shipped], :to => :in_progress
+      transitions :from => [:complete, :shipping], :to => :in_progress
     end
   end
 
@@ -57,10 +57,7 @@ class Order < ActiveRecord::Base
     end
 
     if self.user&.credit_card != nil
-    self.credit_card = self.user.credit_card
-    # credit_card_attr = self.user.credit_card.attributes.slice('first_name', 'last_name', 'street',
-    #                                                             'city', 'country_id', 'zip', 'phone')
-    # self.credit_card = OrderShippingAddress.new( credit_card_attr )
+      self.credit_card = self.user.credit_card
     end
   end
 end

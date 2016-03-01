@@ -1,68 +1,77 @@
+require_relative '../forms/form_for_reviews'
 class OrderController < ApplicationController
+  before_action :define_book, only: [:show]
+  authorize_resource
 
-    before_action :define_order, only: [:show]
+  include CartItems
 
-    ##############   I N D E X   and   S H O W
+##############   I N D E X   and   S H O W
 
-    ## GET
-    def index
+## GET
+  def index
+    @orders      = current_user&.orders
+    @order       = @orders.find_by(aasm_state: 'in_progress')
+    @order_items = get_items_hash(order: @order) or get_items_hash(session: session)
+    @shipping    = @orders.where(aasm_state: 'shipping')
+    @completed   = @orders.where(aasm_state: 'completed')
+  end
 
-    end
+## GET
+  def show
 
-    ## GET
-    def show
+  end
 
-    end
+##############   C R E A T E
 
-    ##############   C R E A T E
+## GET
+  def new
+    @book = Book.find(params[:book])
+    @user = current_user
+  end
 
-    ## GET
-    def new
+## POST
+  def create
+    review = ReviewForm.new(params: params_review)
+    review.submit
+    review.save ? (render json: {status: 200}) : (render json: review.errors, status: :unprocessable_entity)
+  end
 
-    end
+##############   U P D A T E
 
-    ## POST
-    def create
+## GET
+  def edit
 
-    end
+  end
 
-    ##############   U P D A T E
+## PATCH
+  def update
 
-    ## GET
-    def edit
+  end
 
-    end
+##############   D E L E T E
 
-    ## PATCH
-    def update
+## DELETE
+  def delete
 
-    end
+  end
 
-    ##############   D E L E T E
+## DELETE
+  def destroy
 
-    ## DELETE
-    def delete
+  end
 
-    end
+##############   M Y   M E T H O D S
 
-    ## DELETE
-    def destroy
+  private
 
-    end
+  def define_order
 
-    ##############   M Y   M E T H O D S
+    @order = Order.find(params[:id])
 
-    private
+  end
 
-    def define_order
-
-      @order = Order.find(params[:id])
-
-    end
-
-    def params_order
-
-      # params.require(:order).permit(:title)
-
-    end
+  def params_order
+    params.require(:order).permit(:rating_points, :rating_book_id, :rating_user_id, :review_theme,
+                                   :review_text, :review_user_id, :review_book_id)
+  end
 end

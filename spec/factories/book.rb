@@ -86,6 +86,7 @@ FactoryGirl.define do
       transient do
         order_items_count 5
       end
+      aasm_status 'completed'
 
       after(:create) do |order, evaluator|
         order.order_items = create_list(:order_item, evaluator.order_items_count, :with_rand, order_id: order.id)

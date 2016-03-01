@@ -1,5 +1,7 @@
 class MainController < ApplicationController
 
+  authorize_resource :class => false
+
   ##############   I N D E X   and   S H O W
 
   ## GET

@@ -40,6 +40,7 @@ class CheckoutForm
     self.params                 = params
 
     if self.order.order_items == []
+      self.order.coupon = Coupon.find_by(id: session[:coupon]['id'].to_i) if session[:coupon]&.present?
       books = Book.where(id: session[:cart].keys)
       items = []
       books.each do |book|

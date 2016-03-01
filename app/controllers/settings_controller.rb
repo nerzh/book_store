@@ -1,8 +1,8 @@
 require_relative '../forms/form_for_settings'
 class SettingsController < ApplicationController
   before_action :authenticate_user!
-  # authorize_resource
   # authorize_resource :class => "SettingsForm"
+
   ##############   I N D E X   and   S H O W
 
   ## GET
@@ -12,8 +12,8 @@ class SettingsController < ApplicationController
 
   ## GET
   def show
-    @settings = SettingsForm.new(current_user)
-    authorize! :settings, @settings
+    @settings_form = SettingsForm.new(current_user)
+    # authorize! :settings, @settings
     @user = current_user
     # @settings = SettingsForm.new(@user)
   end

@@ -1,16 +1,15 @@
 require_relative '../forms/form_for_checkout'
 class CheckoutController < ApplicationController
-  # before_action :authenticate_user!
+  # authorize_resource :class => false
+  before_action :authenticate_user!
 
   include Wicked::Wizard
   steps :address, :delivery, :payment, :confirm, :complete, :delete
 
-  before_action -> { redirect_to shop_index_path         if session[:cart].nil? or session[:cart].empty? and !get_order and
+  before_action -> { redirect_to shop_index_path         if session[:cart].nil? || session[:cart].empty? and !get_order and
                                                             [:address, :delivery, :payment, :confirm].include?(step) }
-  before_action -> { redirect_to checkout_path(:address) if session[:cart].nil? or session[:cart].empty? and
+  before_action -> { redirect_to checkout_path(:address) if session[:cart].nil? || session[:cart].empty? and
                                                             get_order and step == :complete }
-
-  authorize_resource :class => false
 
   def show
     if order = get_order
@@ -22,6 +21,7 @@ class CheckoutController < ApplicationController
       end
       @checkout_form = CheckoutForm.new(current_user, order: order, session: session)
       session[:cart].clear
+      session[:coupon]&.clear
     end
 
     render_wizard
@@ -34,7 +34,7 @@ class CheckoutController < ApplicationController
         checkout_form.submit
         jump_to(step) and render_wizard and return unless checkout_form.save
       when :confirm
-        get_order.completed!
+        get_order.shipping!
       else
         jump_to(:address) and render_wizard and return unless session[:cart].empty?
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)

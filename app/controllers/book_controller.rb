@@ -1,6 +1,8 @@
 class BookController < ApplicationController
 
   before_action :define_book, only: [:show]
+  
+
 
 ##############   I N D E X   and   S H O W
 

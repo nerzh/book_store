@@ -1,5 +1,7 @@
 class CartController < ApplicationController
 
+  include CartItems
+
   before_action -> { session[:cart] ||= Hash.new; session[:coupon] ||= Hash.new }
 
   ##############   I N D E X   and   S H O W
@@ -12,23 +14,8 @@ class CartController < ApplicationController
   ## GET
   def show
     redirect_to checkout_path(:address) and return if get_order
-    @total_price = 0
-    @cart = {}
-    books = Book.where(id: session[:cart].keys)
-    books.each do |book|
-      @cart[book.id]               = {}
-      @cart[book.id][:title]       = book.title
-      @cart[book.id][:description] = book.description
-      @cart[book.id][:price]       = book.show_price
 
-      unless session[:coupon]['discount'].nil?
-        @cart[book.id][:price] = (@cart[book.id][:price] - @cart[book.id][:price]*session[:coupon]['discount']/100).round 2
-      end
-
-      @cart[book.id][:amount] = session[:cart][book.id.to_s].to_i
-      @cart[book.id][:total]  = book.show_price*session[:cart][book.id.to_s].to_i
-      @cart[book.id][:image]  = book.cover.small
-    end
+    @cart = get_items_hash(session: session)
   end
 
   ##############   C R E A T E
@@ -59,10 +46,15 @@ class CartController < ApplicationController
   ## PATCH
   def update
     if params[:coupon] =~ /^\d+$/
-      coupon = Coupon.where(number: params[:coupon]).first
+      coupon = Coupon.find_by(number: params[:coupon])
+      # order = get_order; order.coupon = coupon
+      # order.save
+      session[:coupon]['id']       = coupon&.id
       session[:coupon]['number']   = coupon&.number
       session[:coupon]['discount'] = coupon&.discount
     else
+      # get_order&.coupon&.delete
+      session[:coupon]['id']       = nil
       session[:coupon]['number']   = nil
       session[:coupon]['discount'] = nil
     end
@@ -87,6 +79,7 @@ class CartController < ApplicationController
       session[:cart].delete(params[:id]) if session[:cart].key? params[:id]
     elsif params[:stat] == "1"
       session[:cart].clear
+      session[:coupon]&.clear
     end
 
     redirect_to cart_path
