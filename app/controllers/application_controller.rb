@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   after_action :set_csrf_cookie_for_ng
+  before_action :current_ability
 
   respond_to :html, :json
 
@@ -16,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to new_user_session_path, alert: t('access_denied')
+    redirect_to main_app.new_user_session_path, alert: t('access_denied')
   end
 
   protected

@@ -1,6 +1,5 @@
-require_relative '../forms/form_for_reviews'
 class OrderController < ApplicationController
-  before_action :define_book, only: [:show]
+  before_action :define_order, only: [:show]
   authorize_resource
 
   include CartItems

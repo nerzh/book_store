@@ -1,4 +1,3 @@
-require_relative '../forms/form_for_checkout'
 class CheckoutController < ApplicationController
   # authorize_resource :class => false
   before_action :authenticate_user!

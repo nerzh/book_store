@@ -47,13 +47,10 @@ class CartController < ApplicationController
   def update
     if params[:coupon] =~ /^\d+$/
       coupon = Coupon.find_by(number: params[:coupon])
-      # order = get_order; order.coupon = coupon
-      # order.save
       session[:coupon]['id']       = coupon&.id
       session[:coupon]['number']   = coupon&.number
       session[:coupon]['discount'] = coupon&.discount
     else
-      # get_order&.coupon&.delete
       session[:coupon]['id']       = nil
       session[:coupon]['number']   = nil
       session[:coupon]['discount'] = nil

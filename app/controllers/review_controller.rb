@@ -1,4 +1,3 @@
-require_relative '../forms/form_for_reviews'
 class ReviewController < ApplicationController
   authorize_resource
 

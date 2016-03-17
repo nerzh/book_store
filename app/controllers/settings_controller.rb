@@ -1,4 +1,3 @@
-require_relative '../forms/form_for_settings'
 class SettingsController < ApplicationController
   before_action :authenticate_user!
   # authorize_resource :class => "SettingsForm"

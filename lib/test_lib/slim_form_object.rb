@@ -1,44 +1,36 @@
-class SettingsForm
-  include ActiveModel::Model
+# class SettingsForm
+module SlimFormObject
 
-  def self.snake(string)
-    string.gsub(/((\w)([A-Z]))/,'\2_\3').downcase
+  def self.included(base)
+    base.extend(ClassMethods)
   end
 
-  #name params
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "User")
-  end
+  # include ActiveModel::Model
 
-  #models for update
-  @@models = [ User,
-               BillingAddress,
-               ShippingAddress,
-               CreditCard ]
-
-  #attr_accessor
-  attr_accessor :params
-  @@models.each{ |model| attr_accessor snake(model.to_s).to_sym }
-
-  #delegate
-  @@models.each do |model|
-    model.column_names.each do |attr|
-      delegate attr.to_sym, "#{attr}=".to_sym,
-               to: snake(model.to_s).to_sym,
-               prefix: snake(model.to_s).to_sym
+  module ClassMethods
+    def init_models(*args)
+      @@models = args
+      add_attributes
     end
-  end
 
-  #validation
-  validate :validation_models
+    def snake(string)
+      string.gsub(/((\w)([A-Z]))/,'\2_\3').downcase
+    end
 
-  def initialize(current_user, params: {})
-    self.user             = current_user
-    self.billing_address  = BillingAddress.new  unless self.billing_address  = current_user.billing_address
-    self.shipping_address = ShippingAddress.new unless self.shipping_address = current_user.shipping_address
-    self.credit_card      = CreditCard.new      unless self.credit_card      = current_user.credit_card
+    def add_attributes
+      #attr_accessor for models and env params
+      attr_accessor :params
+      @@models.each{ |model| attr_accessor snake(model.to_s).to_sym }
 
-    self.params                 = params
+      #delegate attributes of models
+      @@models.each do |model|
+        model.column_names.each do |attr|
+          delegate attr.to_sym, "#{attr}=".to_sym,
+                   to: snake(model.to_s).to_sym,
+                   prefix: snake(model.to_s).to_sym
+        end
+      end
+    end
   end
 
   def submit
@@ -119,7 +111,7 @@ class SettingsForm
   end
 
   def get_association(class1, class2)
-    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first&.macro
+    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first.try(macro)
   end
 
 end
