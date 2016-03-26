@@ -1,15 +1,12 @@
-# class SettingsForm
 module SlimFormObject
 
   def self.included(base)
     base.extend(ClassMethods)
   end
 
-  # include ActiveModel::Model
-
   module ClassMethods
     def init_models(*args)
-      @@models = args
+      @models = args
       add_attributes
     end
 
@@ -20,10 +17,10 @@ module SlimFormObject
     def add_attributes
       #attr_accessor for models and env params
       attr_accessor :params
-      @@models.each{ |model| attr_accessor snake(model.to_s).to_sym }
+      @models.each{ |model| attr_accessor snake(model.to_s).to_sym }
 
       #delegate attributes of models
-      @@models.each do |model|
+      @models.each do |model|
         model.column_names.each do |attr|
           delegate attr.to_sym, "#{attr}=".to_sym,
                    to: snake(model.to_s).to_sym,
@@ -41,7 +38,7 @@ module SlimFormObject
     if valid?
       models = get_model_for_save
       while model1 = models.delete( models[0] )
-        @@models.each{ |model2| save_models(model1, model2) }
+        get_models.each{ |model2| save_models(model1, model2) }
       end
 
       return true
@@ -50,6 +47,10 @@ module SlimFormObject
   end
 
   private
+
+  def get_models
+    self.class.instance_variable_get(:@models)
+  end
 
   def save_models(model1, model2)
     self_model1 = method( self.class.snake(model1.to_s) ).call
@@ -84,7 +85,7 @@ module SlimFormObject
   end
 
   def update_attributes
-    @@models.each do |model|
+    get_models.each do |model|
       model_attributes = []
       model.column_names.each do |name|
         model_attributes << "#{self.class.snake(model.to_s)}_#{name}"
@@ -99,7 +100,7 @@ module SlimFormObject
   def get_model_for_save
     keys = params.keys
     models = []
-    @@models.each do |model|
+    get_models.each do |model|
       model.column_names.each do |name|
         keys.each do |key|
           models << model if key.to_s == "#{self.class.snake(model.to_s)}_#{name}"
@@ -111,7 +112,7 @@ module SlimFormObject
   end
 
   def get_association(class1, class2)
-    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first.try(macro)
+    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first.try(:macro)
   end
 
 end

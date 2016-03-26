@@ -86,7 +86,7 @@ FactoryGirl.define do
       transient do
         order_items_count 5
       end
-      aasm_status 'completed'
+      aasm_state 'completed'
 
       after(:create) do |order, evaluator|
         order.order_items = create_list(:order_item, evaluator.order_items_count, :with_rand, order_id: order.id)
@@ -118,7 +118,7 @@ end
 FactoryGirl.define do
 
   factory :review do
-    theme { Faker::Lorem.paragraph }
+    theme { Faker::Lorem.sentence }
     text { Faker::Lorem.paragraph(2, false, 7) }
 
     trait :test do
