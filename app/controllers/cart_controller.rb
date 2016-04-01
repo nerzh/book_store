@@ -4,23 +4,11 @@ class CartController < ApplicationController
 
   before_action -> { session[:cart] ||= Hash.new; session[:coupon] ||= Hash.new }
 
-  ##############   I N D E X   and   S H O W
-
-  ## GET
-  # def index
-  #
-  # end
-
-  ## GET
   def show
     redirect_to checkout_path(:address) and return if get_order
-
     @cart = get_items_hash(session: session)
   end
 
-  ##############   C R E A T E
-
-  ## GET
   def add
     unless session[:cart][params[:id]].nil?
       session[:cart][params[:id]] = session[:cart][params[:id]].to_i + params[:quantity].to_i
@@ -31,19 +19,6 @@ class CartController < ApplicationController
     redirect_to cart_path
   end
 
-  ## POST
-  # def create
-  #
-  # end
-
-  ##############   U P D A T E
-
-  ## GET
-  def edit
-
-  end
-
-  ## PATCH
   def update
     if params[:coupon] =~ /^\d+$/
       coupon = Coupon.find_by(number: params[:coupon])
@@ -63,14 +38,6 @@ class CartController < ApplicationController
     redirect_to cart_path
   end
 
-  ##############   D E L E T E
-
-  ## DELETE
-  # def delete
-  #
-  # end
-
-  ## DELETE
   def destroy
     if params[:stat] == "0"
       session[:cart].delete(params[:id]) if session[:cart].key? params[:id]
@@ -81,9 +48,5 @@ class CartController < ApplicationController
 
     redirect_to cart_path
   end
-
-  ##############   M Y   M E T H O D S
-
-  private
 
 end

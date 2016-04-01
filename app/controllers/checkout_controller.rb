@@ -29,9 +29,9 @@ class CheckoutController < ApplicationController
   def update
     case step
       when :address
-        checkout_form = CheckoutForm.new(current_user, order: get_order)
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
         checkout_form.submit
-        jump_to(step) and render_wizard and return unless checkout_form.save
+        (jump_to(step) and render_wizard and return) unless checkout_form.save
       when :confirm
         get_order.shipping!
       else

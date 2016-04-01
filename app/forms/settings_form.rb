@@ -1,15 +1,10 @@
-require_relative "../../lib/test_lib/slim_form_object"
 class SettingsForm
-
-  include ActiveModel::Model
   include SlimFormObject
 
-  #name params
   def self.model_name
     ActiveModel::Name.new(self, nil, "User")
   end
 
-  #validation
   validate :validation_models
 
   init_models User, BillingAddress, ShippingAddress, CreditCard

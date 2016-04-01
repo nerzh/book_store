@@ -1,21 +1,13 @@
-require_relative "../../lib/test_lib/slim_form_object"
 class CheckoutForm
-  include ActiveModel::Model
   include SlimFormObject
 
-  #name params
   def self.model_name
-    ActiveModel::Name.new(self, nil, "User")
+    ActiveModel::Name.new(self, nil, "Order")
   end
 
-  #validation
   validate :validation_models
 
-  #models for update
-  init_models  Order,
-               OrderBillingAddress,
-               OrderShippingAddress,
-               CreditCard
+  init_models  Order, OrderBillingAddress, OrderShippingAddress, CreditCard
 
   def initialize(current_user, params: {}, order: nil, session: nil)
     self.order                  = current_user.orders.create unless self.order                  = order
