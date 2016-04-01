@@ -29,7 +29,7 @@
           %div
             = @checkout_form.order_shipping_address_city
           %div
-            = @checkout_form.order.order_shipping_address.&country&.name
+            = @checkout_form.order.order_shipping_address&.country&.name
           %div
             = @checkout_form.order_shipping_address_zip
           %div
