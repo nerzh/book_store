@@ -36,7 +36,7 @@ gem 'devise'
 #
 gem 'omniauth-facebook'
 #
-gem 'puma', '2.15.3'
+gem 'puma', '2.16.0'
 #
 gem 'carrierwave'
 #
