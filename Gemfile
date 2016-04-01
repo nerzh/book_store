@@ -25,7 +25,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #
 gem 'byebug'
 
-
 gem 'pg'
 #
 gem 'railroady'
@@ -66,7 +65,7 @@ gem 'font-awesome-sass'
 #
 gem 'slim_form_object', '~> 0.4.0'
 #
-#gem 'disposable'
+# gem 'disposable'
 #
 # gem 'forms'
 #
@@ -106,8 +105,6 @@ group :development, :test do
   gem "rspec-collection_matchers", "~> 1.1.2"
 
   # gem 'active_mocker'
-
-  # gem 'slim_form_object', :git => 'git@github.com:woodcrust/slim_form_object.git'
 
 end
 

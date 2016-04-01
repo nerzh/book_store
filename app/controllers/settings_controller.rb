@@ -3,6 +3,7 @@ class SettingsController < ApplicationController
   # authorize_resource :class => "SettingsForm"
 
   def show
+    @user = current_user
     @settings_form = SettingsForm.new(current_user)
   end
 
