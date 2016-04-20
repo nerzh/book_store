@@ -63,7 +63,7 @@ gem 'wicked', '~> 1.2', '>= 1.2.1'
 #
 gem 'font-awesome-sass'
 #
-gem 'slim_form_object', '~> 0.4.0'
+gem 'slim_form_object'
 #
 # gem 'disposable'
 #

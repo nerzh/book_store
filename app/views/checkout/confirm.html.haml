@@ -16,7 +16,7 @@
             %a(href= "complete") Complete
       %confirm-content.cart-book
         %shipping
-          %div.row-start-centr
+          .row-start-centr
             = "Shipping address "
             = link_to 'edit', checkout_path(:address)
           %div
@@ -35,7 +35,7 @@
           %div
             = @checkout_form.order_shipping_address_phone
         %billing
-          %div.row-start-centr
+          .row-start-centr
             = "Billing address "
             = link_to 'edit', checkout_path(:address)
           %div
@@ -54,14 +54,14 @@
           %div
             = @checkout_form.order_billing_address_phone
         %shipments
-          %div.row-start-centr
+          .row-start-centr
             = "Shipments "
             = link_to 'edit', checkout_path(:delivery)
           %div
           %div
             = @checkout_form.order.delivery.name
         %payment
-          %div.row-start-centr
+          .row-start-centr
             = "Payment information "
             = link_to 'edit', checkout_path(:payment)
           %div

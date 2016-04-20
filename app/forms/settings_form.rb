@@ -1,3 +1,4 @@
+# require_relative '../../lib/test_lib/slim_form_object'
 class SettingsForm
   include SlimFormObject
 
@@ -15,7 +16,7 @@ class SettingsForm
     self.shipping_address = ShippingAddress.new unless self.shipping_address = current_user.shipping_address
     self.credit_card      = CreditCard.new      unless self.credit_card      = current_user.credit_card
 
-    self.params                 = params
+    self.params           = params
   end
 
 end

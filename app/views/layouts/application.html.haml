@@ -33,4 +33,6 @@
                   = link_to 'Sing_in',  new_user_session_path
       .myrow
         .col-1
+          .flash-messages
+            = render :partial => 'layouts/partial/messages'
           = yield

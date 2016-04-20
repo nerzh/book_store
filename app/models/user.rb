@@ -23,7 +23,6 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_facebook_oauth(token)
-
     if user = User.where(email: token.info.email).first
       return user
     else

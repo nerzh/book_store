@@ -33,7 +33,7 @@ class SettingsController < ApplicationController
                                  :shipping_address_street,    :shipping_address_city,       :shipping_address_country_id,
                                  :shipping_address_zip,       :shipping_address_phone,      :credit_card_number, :credit_card_cvv,
                                  :credit_card_exp_year,       :credit_card_exp_month,       :credit_card_first_name,
-                                 :credit_card_last_name,      :user_email)
+                                 :credit_card_last_name,      :user_email )
   end
 
   def parameters_password

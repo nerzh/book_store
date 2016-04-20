@@ -1,8 +1,16 @@
 module SlimFormObject
 
   def self.included(base)
-    base.include(ActiveModel::Model)
-    base.extend(ClassMethods)
+    base.include ActiveModel::Model
+    base.include HelperMethods
+    base.extend  ClassMethods
+    base.extend  HelperMethods
+  end
+
+  module HelperMethods
+    def snake(string)
+      string.gsub(/((\w)([A-Z]))/,'\2_\3').downcase
+    end
   end
 
   module ClassMethods
@@ -12,10 +20,6 @@ module SlimFormObject
         define_method(:array_of_models) { args }
       end
       add_attributes(args)
-    end
-
-    def snake(string)
-      string.gsub(/((\w)([A-Z]))/,'\2_\3').downcase
     end
 
     def add_attributes(models)
@@ -36,11 +40,12 @@ module SlimFormObject
 
   def submit
     update_attributes
+    update_attributes_for_collection
   end
 
   def save
     if valid?
-      models = get_model_for_save
+      models = Array.new(array_of_models)
       while model1 = models.delete( models[0] )
         array_of_models.each{ |model2| save_models(model1, model2) }
       end
@@ -53,28 +58,28 @@ module SlimFormObject
   private
 
   def save_models(model1, model2)
-    self_model1 = method( self.class.snake(model1.to_s) ).call
-    self_model2 = method( self.class.snake(model2.to_s) ).call
+    self_object_of_model1 = method( snake(model1.to_s) ).call
+    self_object_of_model2 = method( snake(model2.to_s) ).call
 
     case get_association(model1, model2)
       when :belongs_to
-        self_model1.send( "#{self.class.snake(model2.to_s)}=", self_model2 )
-        self_model1.save
+        self_object_of_model1.send( "#{snake(model2.to_s)}=", self_object_of_model2 )
+        self_object_of_model1.save!
       when :has_one
-        self_model1.send( "#{self.class.snake(model2.to_s)}=", self_model2 )
-        self_model1.save
+        self_object_of_model1.send( "#{snake(model2.to_s)}=", self_object_of_model2 )
+        self_object_of_model1.save!
       when :has_many
-        self_model1.method("#{model2.table_name}").call << self_model2
-        self_model1.save
+        self_object_of_model1.method("#{model2.table_name}").call << self_object_of_model2
+        self_object_of_model1.save!
       when :has_and_belongs_to_many
-        self_model1.method("#{model2.table_name}").call << self_model2
-        self_model1.save
+        self_object_of_model1.method("#{model2.table_name}").call << self_object_of_model2
+        self_object_of_model1.save!
     end
   end
 
   def validation_models
-    get_model_for_save.each do |model|
-      set_errors( method(self.class.snake(model.to_s)).call.errors ) unless method( self.class.snake(model.to_s) ).call.valid?
+    array_of_models.each do |model|
+      set_errors( method(snake(model.to_s)).call.errors ) unless method( snake(model.to_s) ).call.valid?
     end
   end
 
@@ -87,14 +92,59 @@ module SlimFormObject
   def update_attributes
     array_of_models.each do |model|
       model_attributes = make_attributes_of_model(model)
-      method( self.class.snake(model.to_s) ).call.assign_attributes( get_attributes_for_update(model_attributes, model) )
+      method( snake(model.to_s) ).call.assign_attributes( get_attributes_for_update(model_attributes, model) )
+    end
+  end
+
+  def update_attributes_for_collection
+    array_of_models.each do |model|
+      assign_attributes_for_collection(model)
+    end
+  end
+
+  def keys_of_collections
+    @keys ||= []
+    params.keys.each do |key|
+      array_of_models.each do |model|
+        self_object_of_model = method( snake(model.to_s) ).call
+        method_name = key.to_s[/#{snake(model.to_s)}_(.*)/, 1]
+        @keys << method_name if self_object_of_model.respond_to? method_name.to_s
+      end if key[/^.+_ids$/]
+    end if @keys.empty?
+    @keys
+  end
+
+  def exist_any_arrors_without_collections?
+    keys_of_collections.each do |method_name|
+      array_of_models.each do |model|
+        self_object_of_model = method( snake(model.to_s) ).call
+        name_of_model = method_name.to_s[/^(.+)_ids$/, 1]
+        name_of_constant_model = name_of_model.split('_').map(&:capitalize).join
+        name_of_key_error = Object.const_get(name_of_constant_model).table_name
+        errors.messages.delete(name_of_key_error.to_sym)
+      end
+    end unless valid?
+    errors.messages.empty?
+  end
+
+  def assign_attributes_for_collection(model)
+    self_object_of_model = method( snake(model.to_s) ).call
+
+    keys_of_collections.each do |method_name|
+      if self_object_of_model.respond_to? method_name
+        old_attribute = self_object_of_model.method( method_name ).call
+        unless self_object_of_model.update_attributes( {method_name.to_s => params["#{snake(model.to_s)}_#{method_name}".to_sym]} )
+          set_errors(self_object_of_model.errors)
+          self_object_of_model.update_attributes( {method_name.to_s => old_attribute} )
+        end if exist_any_arrors_without_collections?
+      end
     end
   end
 
   def make_attributes_of_model(model)
     model_attributes = []
     model.column_names.each do |name|
-      model_attributes << "#{self.class.snake(model.to_s)}_#{name}"
+      model_attributes << "#{snake(model.to_s)}_#{name}"
     end
     model_attributes
   end
@@ -102,26 +152,12 @@ module SlimFormObject
   def get_attributes_for_update(model_attributes, model)
     update_attributes = {}
     hash_attributes   = params.slice(*model_attributes)
-    hash_attributes.each{ |attr, val| update_attributes[attr.gsub(/#{self.class.snake(model.to_s)}_(.*)/, '\1')] = val }
+    hash_attributes.each{ |attr, val| update_attributes[attr.gsub(/#{snake(model.to_s)}_(.*)/, '\1')] = val }
     update_attributes
   end
 
-  def get_model_for_save
-    keys = params.keys
-    models = []
-    array_of_models.each do |model|
-      model.column_names.each do |name|
-        keys.each do |key|
-          models << model if key.to_s == "#{self.class.snake(model.to_s)}_#{name}"
-        end
-      end
-    end
-    models.uniq!
-    models
-  end
-
   def get_association(class1, class2)
-    class1.reflections.slice(self.class.snake(class2.to_s), class2.table_name).values.first.try(:macro)
+    class1.reflections.slice(snake(class2.to_s), class2.table_name).values.first.try(:macro)
   end
 
 end

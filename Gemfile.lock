@@ -262,7 +262,7 @@ GEM
     sexp_processor (4.7.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
-    slim_form_object (0.4.1)
+    slim_form_object (0.5.4)
       activerecord (~> 4.2)
     spring (1.6.4)
     sprockets (2.12.3)
@@ -335,7 +335,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   selenium-webdriver
   shoulda-matchers
-  slim_form_object (~> 0.4.0)
+  slim_form_object
   spring
   sprockets (= 2.12.3)
   sqlite3

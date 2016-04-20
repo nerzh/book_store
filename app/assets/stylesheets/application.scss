@@ -76,6 +76,15 @@ body
   height: 100%;
   position: relative;
 }
+.flash-messages
+{
+  display: table-cell;
+  //height: 100%;
+  width: 100%;
+  position: relative;
+  //vertical-align: middle;
+  //text-align: center;
+}
 .col-1
 {
   display: table-cell;
@@ -84,7 +93,6 @@ body
   position: relative;
   vertical-align: middle;
   text-align: center;
-
 }
 .content
 {
