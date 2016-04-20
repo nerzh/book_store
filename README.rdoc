@@ -1,5 +1,5 @@
 == README
 
-example store
+test task. example of store
 
 * http://bookstore.inclouds.com.ua
