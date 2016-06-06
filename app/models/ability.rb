@@ -6,17 +6,17 @@ class Ability
 
 
     if user&.admin?
-    can :manage,   :all
-    can :access,   :rails_admin
-    can :dashboard
+      can :manage,   :all
+      can :access,   :rails_admin
+      can :dashboard
     elsif user&.user?
-    can :read,     Book
-    can :read,     Category
-    can :manage,   :checkout if order&.user == user
-    can :read,     :main
-    can :crud,     Order
-    can :manage,   Order
-    can :create,   Review,    {user: user}
+      can :read,     Book
+      can :read,     Category
+      can :manage,   :checkout if order&.user == user
+      can :read,     :main
+      can :crud,     Order
+      can :manage,   Order
+      can :create,   Review,    {user: user}
       # can :manage, :settings, {user: user}
       # can :manage, :settings
     else
