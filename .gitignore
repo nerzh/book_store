@@ -23,3 +23,10 @@
 *.DS_Store
 /doc
 /public
+/config/puma.rb
+/shared
+/vendor/assets/*
+!/vendor/assets/bower.json
+!/vendor/assets/.bowerrc
+#/Gemfile.lock
+/:*
