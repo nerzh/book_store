@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 gem 'sqlite3'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -22,14 +22,11 @@ gem 'haml-rails', '~> 0.9.0'
 gem 'bower-rails', '~> 0.10.0'
 gem 'cancancan'
 gem 'rolify'
-gem "activerecord-import", '~> 0.10.0'
 gem 'sprockets', '2.12.3'
 gem 'kaminari', '~> 0.16.3'
 gem 'rails_admin', '~> 0.8.1'
-gem 'aasm'
-gem 'wicked', '~> 1.2', '>= 1.2.1'
-gem 'font-awesome-sass'
-gem 'slim_form_object', '>= 0.5.8'
+gem 'factory_girl_rails'
+gem 'faker'
 #
 # gem 'disposable'
 #
@@ -39,46 +36,24 @@ gem 'slim_form_object', '>= 0.5.8'
 #
 # gem 'reform'
 #
-gem 'factory_girl_rails'
-
-gem 'faker'
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'byebug'
+  gem 'spring'
+end
 
+group :test do
   gem 'rspec-rails', '~> 3.2.1'
-
   gem 'capybara'
-
   gem 'selenium-webdriver'
-
   gem 'database_cleaner'
-
   gem 'shoulda-matchers'
-
   gem 'rspec-retry'
-
   gem 'rspec-rails-mocha', '~> 0.3.1'
-
   gem "rspec-collection_matchers", "~> 1.1.2"
-
-  # gem 'active_mocker'
-
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
 end
 
