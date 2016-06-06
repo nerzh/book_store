@@ -1,9 +1,6 @@
 class CheckoutForm
   include SlimFormObject
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Order")
-  end
+  set_model_name 'Order'
 
   validate :validation_models
 

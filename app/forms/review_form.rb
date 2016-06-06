@@ -1,9 +1,6 @@
 class ReviewForm
   include SlimFormObject
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Review")
-  end
+  set_model_name 'Review'
 
   validate :validation_models
 

@@ -1,10 +1,7 @@
 # require_relative '../../lib/test_lib/slim_form_object'
 class SettingsForm
   include SlimFormObject
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "User")
-  end
+  set_model_name 'User'
 
   validate :validation_models
 
@@ -20,3 +17,4 @@ class SettingsForm
   end
 
 end
+
