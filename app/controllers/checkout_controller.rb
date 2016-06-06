@@ -30,7 +30,7 @@ class CheckoutController < ApplicationController
     case step
       when :address
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
-        checkout_form.submit
+        checkout_form.apply_parameters
         (jump_to(step) and render_wizard and return) unless checkout_form.save
       when :confirm
         get_order.shipping!

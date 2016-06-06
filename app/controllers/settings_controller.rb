@@ -9,7 +9,7 @@ class SettingsController < ApplicationController
 
   def update
     @settings = SettingsForm.new(current_user, params: parameters)
-    @settings.submit
+    @settings.apply_parameters
     redirect_to root_path and return if @settings.save
     redirect_to settings_path
   end
