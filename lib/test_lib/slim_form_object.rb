@@ -36,12 +36,23 @@ module SlimFormObject
         end
       end
     end
+
+    def set_model_name(name)
+      @@name = name
+      class << self
+        def model_name
+          ActiveModel::Name.new(self, nil, @@name.to_s)
+        end
+      end
+    end
   end
 
   def submit
     update_attributes
     update_attributes_for_collection
   end
+
+  alias_method :apply_parameters, :submit
 
   def save
     if valid?
