@@ -50,6 +50,7 @@ module SlimFormObject
   def submit
     update_attributes
     update_attributes_for_collection
+    self
   end
 
   alias_method :apply_parameters, :submit
