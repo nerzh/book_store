@@ -7,8 +7,7 @@ class ReviewController < ApplicationController
   end
 
   def create
-    review = ReviewForm.new(params: params_review)
-    review.apply_parameters
+    review = ReviewForm.new(params: params_review).apply_parameters
     review.save ? (render json: {status: 200}) : (render json: review.errors, status: :unprocessable_entity)
   end
 

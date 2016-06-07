@@ -29,15 +29,13 @@ class CheckoutController < ApplicationController
   def update
     case step
       when :address
-        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
-        checkout_form.apply_parameters
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters).apply_parameters
         (jump_to(step) and render_wizard and return) unless checkout_form.save
       when :confirm
         get_order.shipping!
       else
         jump_to(:address) and render_wizard and return unless session[:cart].empty?
-        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters)
-        checkout_form.submit
+        checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters).apply_parameters
         jump_to(step) unless checkout_form.save
     end
     render_wizard current_user
