@@ -18,7 +18,7 @@
                 %img-normal= image_tag book.cover.normal, class: 'w100'
               %item-info-descr.w100= book.description
             %forms
-              = form_tag add_cart_path(id: book.id), method: 'POST', class: 'h100' do
+              = form_tag shopping_cart.add_cart_path(id: book.id), method: 'POST', class: 'h100' do
                 %item-cart.row-start-center
                   %div= show_price(book.price)
                   %div= number_field_tag('quantity', 1, min: 1, max: 99, step: 1)

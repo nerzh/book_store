@@ -12,23 +12,23 @@
       %nav.navbar.navbar-default
         .container-fluid
           .navbar-header
-            = link_to 'The Bookstore', root_path, class: 'navbar-brand'
+            = link_to 'The Bookstore', main_app.root_path, class: 'navbar-brand'
           %div.collapse.navbar-collapse(id='bs-example-navbar-collapse-1')
             %ul.nav.navbar-nav
               %li
-                = link_to 'Home',     root_path
+                = link_to 'Home',     main_app.root_path
               %li
-                = link_to 'Shop',     shop_index_path
+                = link_to 'Shop',     main_app.shop_index_path
             %ul.nav.navbar-nav.navbar-right
               %li
-                = link_to 'CART',     cart_path
+                = link_to 'CART',     shopping_cart.cart_path
               %li
-                = link_to 'Settings', settings_path if current_user
+                = link_to 'Settings', shopping_cart.settings_path if current_user
               %li
-                = link_to 'Orders',   orders_path   if current_user
+                = link_to 'Orders',   shopping_cart.orders_path   if current_user
               %li
                 - if current_user
-                  = link_to 'Sing_out', destroy_user_session_path, method: 'DELETE'
+                  = link_to 'Sing_out', destroy_session_path(current_user), method: 'DELETE'
                 - else
                   = link_to 'Sing_in',  new_user_session_path
       .myrow
