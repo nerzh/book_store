@@ -24,8 +24,12 @@ gem 'rolify'
 gem 'sprockets', '2.12.3'
 gem 'kaminari', '~> 0.16.3'
 gem 'rails_admin', '~> 0.8.1'
+gem 'font-awesome-sass'
 gem 'factory_girl_rails'
 gem 'faker'
+gem 'slim_form_object', '~>0.5'
+# gem 'shopper_engine', github: "woodcrust/rails_engine_shopping_cart"
+gem 'shopping_cart', path: "/Users/nerzh/mydata/projects/engines/shopping_cart"
 #
 # gem 'disposable'
 #
@@ -54,5 +58,6 @@ end
 
 group :development do
   gem 'web-console', '~> 2.0'
+  gem 'active_record_query_trace'
 end
 
