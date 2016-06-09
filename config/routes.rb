@@ -2,32 +2,15 @@ Rails.application.routes.draw do
 
   post '/rate' => 'rater#create', :as => 'rate'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  mount ShoppingCart::Engine => "/"
 
-  devise_for :users,
-             controllers: { :omniauth_callbacks => 'omniauth_callbacks'}
+  devise_for :users, controllers: {:omniauth_callbacks => 'omniauth_callbacks'}
 
   root to: "main#index"
 
-  # resource :shop, only: [:show], controller: 'category' do
-  # end
-
   resources :shop,     controller: 'category'
-  resources :books,    controller: 'book'
-  resources :orders,   controller: 'order'
-  resources :checkout, controller: 'checkout'
+  resources :products, controller: 'book'
   resources :reviews,  controller: 'review'
-
-  resource :settings do
-    collection do
-      patch 'update_password'
-    end
-  end
-
-  resource  :cart, controller: 'cart' do
-    collection do
-      post 'add'
-    end
-  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
