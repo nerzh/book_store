@@ -30,7 +30,7 @@
                 - if current_user
                   = link_to 'Sing_out', destroy_session_path(current_user), method: 'DELETE'
                 - else
-                  = link_to 'Sing_in',  new_user_session_path
+                  = link_to 'Sing_in',  main_app.new_user_session_path
       .myrow
         .col-1
           .flash-messages
