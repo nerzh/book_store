@@ -6,11 +6,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   has_many :reviews,          dependent: :delete_all
-  has_many :orders,           dependent: :delete_all
   has_many :ratings,          dependent: :delete_all
-  has_one  :shipping_address, dependent: :delete
-  has_one  :billing_address,  dependent: :delete
-  has_one  :credit_card,      dependent: :delete
+
+  this_is_user
 
   after_create :set_role
 

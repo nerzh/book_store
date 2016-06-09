@@ -1,9 +1,7 @@
 class Ability
-
   include CanCan::Ability
 
-  def initialize(user, order)
-
+  def initialize(user)
 
     if user&.admin?
       can :manage,   :all
@@ -12,10 +10,7 @@ class Ability
     elsif user&.user?
       can :read,     Book
       can :read,     Category
-      can :manage,   :checkout if order&.user == user
       can :read,     :main
-      can :crud,     Order
-      can :manage,   Order
       can :create,   Review,    {user: user}
       # can :manage, :settings, {user: user}
       # can :manage, :settings
