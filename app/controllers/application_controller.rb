@@ -12,10 +12,6 @@ class ApplicationController < ActionController::Base
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
   end
 
-  def get_order
-    Order.where(user_id: current_user.id, aasm_state: 'in_progress').first if current_user
-  end
-
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.new_user_session_path, alert: t('access_denied')
   end
@@ -29,7 +25,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_ability
-    @current_ability ||= Ability.new(current_user, get_order)
+    @current_ability ||= Ability.new(current_user)
   end
 
 end
