@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   has_many :ratings,          dependent: :delete_all
 
   this_is_user
-
   after_create :set_role
 
   def admin?
