@@ -1,7 +1,5 @@
 class CategoryController < ApplicationController
-
-  before_action :define_category, only: [:show]
-  authorize_resource
+  load_and_authorize_resource
 
   def index
     @books = Book.all.page params[:page]
@@ -14,10 +12,6 @@ class CategoryController < ApplicationController
   end
 
   private
-
-  def define_category
-    @category = Category.find(params[:id])
-  end
 
   def params_category
     params.require(:category).permit(:title)
