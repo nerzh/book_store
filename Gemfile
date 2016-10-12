@@ -28,8 +28,8 @@ gem 'font-awesome-sass'
 gem 'factory_girl_rails'
 gem 'faker'
 gem 'slim_form_object', '~>0.5'
-# gem 'shopper_engine', github: "woodcrust/rails_engine_shopping_cart"
-gem 'shopping_cart', path: "/Users/nerzh/mydata/projects/engines/shopping_cart"
+gem 'shopping_cart', github: "woodcrust/rails_engine_shopping_cart"
+# gem 'shopping_cart', path: "/Users/nerzh/mydata/projects/engines/shopping_cart"
 gem 'flexbox-rails', '~> 1.0'
 #
 # gem 'disposable'
