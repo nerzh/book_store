@@ -47,6 +47,29 @@ end
 
 FactoryGirl.define do
 
+  factory :order, class: ShoppingCart::Order do
+    credit_card
+
+    trait :test do
+      user
+    end
+
+    trait :with_order_items do
+      transient do
+        order_items_count 5
+      end
+      aasm_state 'completed'
+
+      after(:create) do |order, evaluator|
+        order.order_items = create_list(:order_item, evaluator.order_items_count, :with_rand, order_id: order.id)
+      end
+    end
+  end
+
+end
+
+FactoryGirl.define do
+
   factory :user do
     sequence(:email) { |n| n.to_s + Faker::Internet.email }
     password "password"
@@ -75,30 +98,7 @@ end
 
 FactoryGirl.define do
 
-  factory :order do
-    credit_card
-
-    trait :test do
-      user
-    end
-
-    trait :with_order_items do
-      transient do
-        order_items_count 5
-      end
-      aasm_state 'completed'
-
-      after(:create) do |order, evaluator|
-        order.order_items = create_list(:order_item, evaluator.order_items_count, :with_rand, order_id: order.id)
-      end
-    end
-  end
-
-end
-
-FactoryGirl.define do
-
-  factory :order_item do
+  factory :order_item, class: ShoppingCart::OrderItem do
     quantity { rand(1..4) }
 
     trait :test do
@@ -154,7 +154,7 @@ end
 
 FactoryGirl.define do
 
-  factory :credit_card do
+  factory :credit_card, class: ShoppingCart::CreditCard do
     number { Faker::Business.credit_card_number.gsub(/-/, '') }
     cvv { rand(100..999) }
     exp_month { Random.rand(1..12) }
@@ -171,7 +171,7 @@ end
 
 FactoryGirl.define do
 
-  factory :billing_address do
+  factory :billing_address, class: ShoppingCart::BillingAddress do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
     street { Faker::Address.street_name }
@@ -189,7 +189,7 @@ end
 
 FactoryGirl.define do
 
-  factory :shipping_address do
+  factory :shipping_address, class: ShoppingCart::ShippingAddress do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
     street { Faker::Address.street_name }
@@ -207,7 +207,7 @@ end
 
 FactoryGirl.define do
 
-  factory :order_billing_address do
+  factory :order_billing_address, class: ShoppingCart::OrderBillingAddress do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
     street { Faker::Address.street_name }
@@ -225,7 +225,7 @@ end
 
 FactoryGirl.define do
 
-  factory :order_shipping_address do
+  factory :order_shipping_address, class: ShoppingCart::OrderShippingAddress do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
     street { Faker::Address.street_name }
@@ -243,7 +243,7 @@ end
 
 FactoryGirl.define do
 
-  factory :country do
+  factory :country, class: ShoppingCart::Country do
     name { Faker::Address.country }
 
     trait :test do
@@ -256,7 +256,7 @@ end
 
 FactoryGirl.define do
 
-  factory :delivery do
+  factory :delivery, class: ShoppingCart::Delivery do
     name { Faker::Lorem.word }
     price { Random.rand(1000..100000) }
 
