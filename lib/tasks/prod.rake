@@ -8,8 +8,8 @@ namespace :prod do
     create_list(:user, 6, :rand_with_full)
     create_list(:review, 20, :with_rand)
     create_list(:delivery, 3)
-    Order.find_each do |order|
-      order.order_shipping_address = OrderShippingAddress.create(first_name: order.user.shipping_address.first_name,
+    ShoppingCart::Order.find_each do |order|
+      order.order_shipping_address = ShoppingCart::OrderShippingAddress.create(first_name: order.user.shipping_address.first_name,
                                                                  last_name:  order.user.shipping_address.last_name,
                                                                  street:     order.user.shipping_address.street,
                                                                  city:       order.user.shipping_address.city,
@@ -18,7 +18,7 @@ namespace :prod do
                                                                  country_id: order.user.shipping_address.country_id
                                                                  )
 
-      order.order_billing_address = OrderBillingAddress.create(first_name: order.user.billing_address.first_name,
+      order.order_billing_address = ShoppingCart::OrderBillingAddress.create(first_name: order.user.billing_address.first_name,
                                                                last_name:  order.user.billing_address.last_name,
                                                                street:     order.user.billing_address.street,
                                                                city:       order.user.billing_address.city,
@@ -29,7 +29,7 @@ namespace :prod do
       order.credit_card.update(user_id: order.user.id)
       order.delivery = Delivery.find( rand(1..3) )
     end
-    BillingAddress.find_each do |address|
+    ShoppingCart::BillingAddress.find_each do |address|
       address.user.update(first_name: address.first_name, last_name: address.last_name)
     end
   end
