@@ -5,6 +5,7 @@ class ShoppingCartOrderItems < ActiveRecord::Migration
       t.integer  "price"
       t.integer  "quantity"
       t.integer  "product_id"
+      t.integer  "book_id"
       t.integer  "order_id"
     end
   end
