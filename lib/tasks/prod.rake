@@ -27,7 +27,7 @@ namespace :prod do
                                                                country_id: order.user.shipping_address.country_id
                                                                )
       order.credit_card.update(user_id: order.user.id)
-      order.delivery = Delivery.find( rand(1..3) )
+      order.delivery = ShoppingCart::Delivery.find( rand(1..3) )
     end
     ShoppingCart::BillingAddress.find_each do |address|
       address.user.update(first_name: address.first_name, last_name: address.last_name)
