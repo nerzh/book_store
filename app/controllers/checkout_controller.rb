@@ -29,6 +29,7 @@ class CheckoutController < ApplicationController
   def update
     case step
       when :address
+        not_validate CreditCard
         checkout_form = CheckoutForm.new(current_user, order: get_order, params: parameters).apply_parameters
         (jump_to(step) and render_wizard and return) unless checkout_form.save
       when :confirm
