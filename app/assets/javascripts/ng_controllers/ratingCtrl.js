@@ -18,7 +18,7 @@ angular.module("bookStore")
                 function(response){
                     if (response.status == 200)
                     {
-                        return window.location.href = '/books/' + $scope.rating.book_id;
+                        return window.location.href = '/products/' + $scope.rating.book_id;
                     }
                 },
                 function(error){
