@@ -27,9 +27,8 @@ gem 'rails_admin', '~> 0.8.1'
 gem 'font-awesome-sass'
 gem 'factory_girl_rails'
 gem 'faker'
-gem 'slim_form_object', '~>0.5'
+gem 'slim_form_object'
 gem 'shopping_cart', github: "woodcrust/rails_engine_shopping_cart"
-# gem 'shopping_cart', path: "/Users/nerzh/mydata/projects/engines/shopping_cart"
 gem 'flexbox-rails', '~> 1.0'
 #
 # gem 'disposable'

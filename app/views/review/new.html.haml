@@ -9,9 +9,9 @@
           .star-title Rating &nbsp;
           %star-rating(ng-model='rating.value'  readonly='rating.isReadonly' on-rating-select='rateFunction(rating)')
         .theme-review
-          = text_field_tag 'review[theme]', '', {class: 'form-control', 'ng-model'=>'rating.theme', size: 81, autofocus: true, id: 'add_review_theme', required: '', 'ng-minlength'=>"1", 'ng-maxlength'=>"150" }
+          = text_field_tag 'review[review][theme]', '', {class: 'form-control', 'ng-model'=>'rating.theme', size: 81, autofocus: true, id: 'add_review_theme', required: '', 'ng-minlength'=>"1", 'ng-maxlength'=>"150" }
         .text-review.row-start-center
-          = text_area_tag 'review[text]', '', {'enter-submit'=> 'enter(reviewForm.$valid)', rows: 10, cols: 80, maxlength: 400, 'ng-model'=>'rating.text', class: 'form-control', required: '', 'ng-minlength'=>"1", 'ng-maxlength'=>"400"}
+          = text_area_tag 'review[review][text]', '', {'enter-submit'=> 'enter(reviewForm.$valid)', rows: 10, cols: 80, maxlength: 400, 'ng-model'=>'rating.text', class: 'form-control', required: '', 'ng-minlength'=>"1", 'ng-maxlength'=>"400"}
         .buttons-review.row-start-center
           = button_tag 'Add', { class: 'btn btn-success', id: 'add_review', 'ng-disabled'=>"reviewForm.$invalid" }
           = link_to 'Cancel', product_path(@book), {class: 'btn btn-warning', id: 'cancel_review'}

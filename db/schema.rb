@@ -29,19 +29,6 @@ ActiveRecord::Schema.define(version: 20160609101708) do
     t.integer "book_id"
   end
 
-  create_table "billing_addresses", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.integer  "country_id"
-    t.string   "zip"
-    t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
-  end
-
   create_table "books", force: :cascade do |t|
     t.string   "title"
     t.string   "description"
@@ -57,85 +44,6 @@ ActiveRecord::Schema.define(version: 20160609101708) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "countries", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "coupons", force: :cascade do |t|
-    t.integer  "number"
-    t.integer  "discount"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "credit_cards", force: :cascade do |t|
-    t.string   "number"
-    t.integer  "cvv"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "exp_month"
-    t.integer  "exp_year"
-  end
-
-  create_table "deliveries", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "price",      default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  create_table "order_billing_addresses", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.integer  "country_id"
-    t.integer  "order_id"
-    t.string   "zip"
-    t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "order_items", force: :cascade do |t|
-    t.integer  "price"
-    t.integer  "quantity"
-    t.integer  "book_id"
-    t.integer  "order_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "order_shipping_addresses", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.integer  "country_id"
-    t.integer  "order_id"
-    t.string   "zip"
-    t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.string   "aasm_state"
-    t.integer  "total_price",    default: 0, null: false
-    t.datetime "completed_date"
-    t.integer  "user_id"
-    t.integer  "credit_card_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "coupon_id"
-    t.integer  "delivery_id"
   end
 
   create_table "overall_averages", force: :cascade do |t|
@@ -174,19 +82,6 @@ ActiveRecord::Schema.define(version: 20160609101708) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
-
-  create_table "shipping_addresses", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "street"
-    t.string   "city"
-    t.integer  "country_id"
-    t.string   "zip"
-    t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
-  end
 
   create_table "shopping_cart_billing_addresses", force: :cascade do |t|
     t.string  "first_name"
@@ -238,6 +133,7 @@ ActiveRecord::Schema.define(version: 20160609101708) do
     t.integer "price"
     t.integer "quantity"
     t.integer "product_id"
+    t.integer "book_id"
     t.integer "order_id"
   end
 
@@ -271,20 +167,6 @@ ActiveRecord::Schema.define(version: 20160609101708) do
     t.string  "zip"
     t.string  "phone"
     t.integer "user_id"
-  end
-
-  create_table "test_users", force: :cascade do |t|
-    t.integer  "test_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tests", force: :cascade do |t|
-    t.string   "pole"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

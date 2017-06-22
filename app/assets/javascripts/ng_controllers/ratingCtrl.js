@@ -6,19 +6,23 @@ angular.module("bookStore")
                 {
                     review:
                     {
-                        rating_points:  $scope.rating.value,
-                        rating_book_id: $scope.rating.book_id,
-                        rating_user_id: $scope.rating.user_id,
-                        review_text:    $scope.rating.text,
-                        review_theme:   $scope.rating.theme,
-                        review_user_id: $scope.rating.user_id,
-                        review_book_id: $scope.rating.book_id
+                        rating: {
+                          points:  $scope.rating.value,
+                          book_id: $scope.rating.book_id,
+                          user_id: $scope.rating.user_id,
+                        },
+                        review: {
+                          text:    $scope.rating.text,
+                          theme:   $scope.rating.theme,
+                          user_id: $scope.rating.user_id,
+                          book_id: $scope.rating.book_id
+                        }
                     }
                 },
                 function(response){
                     if (response.status == 200)
                     {
-                        return window.location.href = '/books/' + $scope.rating.book_id;
+                        return window.location.href = '/products/' + $scope.rating.book_id;
                     }
                 },
                 function(error){
@@ -33,8 +37,8 @@ angular.module("bookStore")
                 value:      1,
                 isReadonly: false,
                 text:       '',
-                user_id:       user_id,
-                book_id:       book_id
+                user_id:    user_id,
+                book_id:    book_id
             };
         };
 
